@@ -1,0 +1,172 @@
+<!-- An example of how I used .ejs templates to dynamically generate pages -->
+
+<%- include("./partials/header") %>
+    <link rel="stylesheet" href="/stylesheets/preferences.css">
+    <script defer src="/scripts/preferences.js"></script>
+    <script src="/scripts/libs/howler.min.js"></script>
+    <!-- <script src="https://unpkg.com/wavesurfer.js"></script> -->
+    <% let isNewSection =  false; %> 
+    <% const soundToSkip = ['shotgunLoad'] %> 
+    <% let breakPoint = 'col-md-6' %> 
+    <% const sectionStartNames = {cardSortPreference: 'Sorting', shouldAnimateThinkingForSelf: 'Animation', pointCountingConvention: 'Counting', cardBackPreference: 'Vanity', setHonorsAutomatically: 'Misc'} %> 
+    <div class="container-fluid" id='masterDiv'> 
+        <div id='preferencesTitle' class="jumbotron">Preferences</div>
+        <form action="/preferences" method="post">
+            <%for (const preferenceName in preferences) {%>
+                <%if (Object.hasOwnProperty.call(preferences, preferenceName)) {%>
+                    <%const preferenceValue = preferences[preferenceName];%>
+                    <%if (typeof preferenceValue === 'object') {%>
+                        <div class='sectionStartDiv'>
+                            <h5>
+                                Sound
+                            </h5>
+                        </div>
+                        <%for (const soundPreferenceName in preferenceValue) {%>
+                            <% if (soundPreferenceName.match(/init/i) || soundPreferenceName.match(/shotgunload/i)) continue %>
+                            <%if (Object.hasOwnProperty.call(preferenceValue, soundPreferenceName)) {%>
+                                <%const subPreferenceValue = preferenceValue[soundPreferenceName];%>
+                                <% const soundPreferenceOption = soundPreferenceOptions[soundPreferenceName] %> 
+
+                                <% if (soundPreferenceName.match(/dealSummaryWon/i)) { %>
+                                    <div class='' id="dealSummaryTable">
+                                        <div class="row">
+                                            
+                                <% } %> 
+
+                                <% if (soundPreferenceName.match(/summary/i)) { %>
+                                    <div class=<%=breakPoint%>>
+                                <% } %> 
+
+                                <div id='<%= soundPreferenceName %>Div' class='soundPreferenceOptionsDivSuper'>
+                                    <% if (!soundPreferenceOption || !soundPreferenceName) continue %>
+                                    <label class='preferenceLabel' for="<%= soundPreferenceName %>"><%= soundPreferenceOption.title %>:</label>
+
+                                    <% if (soundPreferenceName.match(/isenabled/i)) { %>
+                                        <div class='soundPreferenceOptionsDivSub'>
+                                            <label for="isEnabledTrue">Yes:</label>
+                                            <input <%- subPreferenceValue === true ? `checked='checked'` : ''%>  value='true' type="radio" group="isEnabled" name="isEnabled" id="isEnabledTrue">
+                                            
+                                            <label for="isEnabledFalse">No:</label>
+                                            <input <%- subPreferenceValue === false ? `checked='checked'` : ''%> value='false' type="radio" group="isEnabled" name="isEnabled" id="isEnabledFalse">
+                                        </div>
+
+                                    <%} else if (soundPreferenceName.match(/defaultvolume/i)) { %>
+                                        <div id="volumeSliderContainer">
+                                            <input class='sliderTransition' type="range" name="defaultVolume" id="defaultVolumeSlider" min='0' max='1' step='.0001' value='<%-preferences.sound.defaultVolume %>'>
+                                            <div id="currentVolumeDiv">
+                                                <label for="defaultVolumeSlider">Current:</label>
+                                                <label for="defaultVolumeSlider" id='defaultVolumeSliderLabel'><%-`${Math.round(preferences.sound.defaultVolume * 10000) / 100}%`%></label>
+                                            </div>
+                                        </div>
+                                    <% } else {%>
+                                        <div class='soundPreferenceOptionsDivSub'>
+                                            <% for( let i = 0; i < soundPreferenceOption.possibleValues.length; i++ ) { %>
+                                                <% const sound = soundPreferenceOption.possibleValues[i] %> 
+                                                <div class="soundPreferenceItem">
+                                                    <label class='soundOption' for='<%- `${soundPreferenceName}${sound.filename}` %>'><%= sound.title %> </label>
+                                                    <div class='waveform' id='<%- `${soundPreferenceName}${sound.filename}` %>Waveform'></div>
+                                                    <input <%- sound.filename === subPreferenceValue ? `checked='checked'` : ''%> value='<%= sound.filename %>' type="radio" group='<%= soundPreferenceName %>' name='<%= soundPreferenceName %>' id='<%- `${soundPreferenceName}${sound.filename}` %>'>
+                                                </div>
+                                            <% } %>
+                                        </div>
+                                   <% } %> 
+                                </div>
+
+                                <% if (soundPreferenceName.match(/summary/i)) { %>
+                                    </div>
+                                <% } %> 
+
+                                <% if (soundPreferenceName.match(/gameSummaryLost/i)) { %>
+                                        </div>
+                                    </div>
+                                <% } %> 
+                            <%}%>
+                        <%}%>
+
+                    <%} else {%>
+                        <% if (preferenceName.match(/init/i) || !preferenceOptions[preferenceName]) continue %>
+                        <% if (sectionStartNames[preferenceName] && isNewSection) { %>
+                            <% isNewSection = false %> 
+                        <% } %>
+
+                        <% if (sectionStartNames[preferenceName]) { %>
+                            <div class="sectionStartDiv">
+                                <h5>
+                                    <%= sectionStartNames[preferenceName] %>
+                                </h5>
+                            </div>
+                            <% isNewSection = true %> 
+                        <% } %>
+
+                        <% console.log('preferenceName =', preferenceName); %>
+
+                        <% if (preferenceName.match(/cardsort/i) || preferenceName.match(/thinkingforself/i)) { %>
+                            <% let idToUse = 'animationPreferences'; %> 
+                            <% if (preferenceName.match(/cardsort/i)) idToUse = 'cardSortingPreferences'; %>
+                            <div class='container-fluid' id=<%=idToUse%>>
+                                <div class="row">
+                        <% } %> 
+
+                        <% if (preferenceName.match(/sort/i) || preferenceName.match(/trump/i) || preferenceName.match(/animate/i)) { %>
+                            <% if (preferenceName.match(/animate/i)) breakPoint = 'col-md-4'%> 
+                            <div class=<%=breakPoint%>>
+                        <% } %> 
+
+                        <div class='preferenceOptionsDivSuper' id='<%= preferenceName %>Div'>
+
+                            <label class='preferenceLabel' for="<%= preferenceName %>"><%- preferenceOptions[preferenceName].title %></label>
+                            <div class='preferenceOptionsDivSub'>
+                                <% for( let i = 0; i < preferenceOptions[preferenceName].possibleValues.length; i++ ) { %>
+                                    <% const valueName = preferenceOptions[preferenceName].possibleValues[i] %> 
+                                    <% if (valueName === true) { %>
+                                        <% valueName = 'Yes'; %> 
+                                    <% } %>
+                                    <% if (valueName === false) { %>
+                                        <% valueName = 'No'; %> 
+                                    <% } %>
+
+                                    <div id='<%- `${preferenceName}${valueName.value}` %>Div' class='<%- preferenceName === 'cardBackPreference' ? 'cardBackPreference' : preferenceName === 'colorTheme' ? 'colorThemeImg' : ''  %> '>
+                                
+                                        <% if (preferenceName.match(/cardBack/i)) { %>
+                                            <label for="<%-`${preferenceName}${valueName.value}`%>">
+                                                <img src="<%= valueName.source %> " alt="<%- valueName.description%>">
+                                            </label>
+                                        <% } %>
+                                        <% if (preferenceName.match(/colorTheme/i)) { %>
+                                            <!-- <label for="<%-`${preferenceName}${valueName.value}`%>"> -->
+                                            <label>
+                                                <!-- <a href='/imgs/themes/full/<%=valueName.value%>.png' target="_blank"> -->
+                                                    <img src='/imgs/themes/thumbnails/<%=valueName.value%>.png' id='<%-`${preferenceName}${valueName.value}Img`%>'>
+                                                <!-- </a> -->
+                                            </label>
+                                        <% } %>
+                                        <label for="<%- `${preferenceName}${valueName.value}` %>"><%- valueName.description %></label>
+                                        <% if (preferenceValue !== valueName.value) {%>
+                                            <input value='<%= valueName.value %>' type="radio" group='<%=preferenceName%>' name="<%= preferenceName %>" id="<%- `${preferenceName}${valueName.value}` %>">
+                                        <% } else {%>
+                                            <input value='<%= valueName.value %>' type="radio" group='<%=preferenceName%>' name="<%= preferenceName %>" id="<%- `${preferenceName}${valueName.value}`%>" checked='checked' >
+                                        <% } %>                                         
+                                    </div>
+                                <% } %>
+                            </div>
+                        </div>
+
+                        <% if (preferenceName.match(/sort/i) || preferenceName.match(/trump/i) || preferenceName.match(/animate/i)) { %>
+                            </div>
+                        <% } %> 
+
+                        <% if (preferenceName.match(/trumpOnLeftExposedHand/i) || preferenceName.match(/animateroundend/i)) { %>
+                                </div>
+                            </div>
+                        <% } %> 
+                    <%}%>
+                <%}%>
+            <%}%>
+
+            <div id="buttons">
+                <button class='btn btn-md btn-success transition' id='save' type="submit">Save</button>
+                <a href='/preferences' class='btn btn-md btn-warning transition' id='cancel'>Cancel</a>
+            </div>
+        </form>
+    </div>
+<%- include("./partials/footer") %>

@@ -1,0 +1,3394 @@
+/*NOTE: I created this website before I had learned about SASS */
+
+:root {
+    --default-font-size: 24px;
+    --default-margin-size: 15px;
+    --card-height: 74px;
+    --container-width: 437px;
+    --mobile-font-size-18px: 3.13vw;
+    --mobile-font-size-16px: 2.83vw;
+    --mobile-small-font-size-max: 3.33vw;
+    --dealSummaryTableWidth: calc(var(--default-font-size) * 33);
+    --biddingPhaseContainerWidthFactor: 1.15;
+    --default-line-height: 1.1;
+    --thinkingAnimationSuitScaleFactor: .66;
+    --infoMinWidth: 5em;
+    --disabledOpacity: .25;
+    --biddingAnimationCount: 2;
+    --modalInfoMobileFontSize: 2.87vmin;
+    --modalInfoFullFontSize: 4.2vmin;
+    --success-button-color: #208337;
+    --background-gray-color: #e9ecef;
+    --claimSomeContentWidth: 35rem;
+   
+}
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+}
+
+button:hover .spadeIcon, button:hover .clubIcon, .selected .spadeIcon, .selected *, .clubIcon, .blackFiltered, button .blackSuitBidding:hover {
+    color: #000 !important;
+    filter: brightness(1) invert(1);
+}
+
+button:hover .diamondIcon, button:hover .heartIcon, .selected .heartIcon, .selected *, .diamondIcon, .redFiltered, button .redSuitBidding:hover{
+    filter: brightness(0) invert(1) !important;
+}
+.thinkingDiv .clubIcon, .thinkingDiv .diamondIcon {
+    filter: brightness(1) invert(0) !important;
+}
+body>div:nth-of-type(1) {
+    margin-top: 0px !important;
+}
+.btn {
+    border-radius: 1000px !important;
+    font-weight: 700 !important;
+    outline: none;
+    border: none;
+}
+.col-2 .btn, .col-6 .btn {
+    border: var(--biddingButtonColor) var(--biddingBorderWidthThin) solid;
+
+}
+.form-control {
+    padding: .375rem .75rem .375rem 1rem;
+    border-radius: 1000px;
+}
+.btn-outline-dark:hover {
+    color: white;
+}
+
+.btn-sm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+    transition: all .5s ease;
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    outline: none;
+}
+
+td, th {
+    text-align: center;
+}
+html, body {
+    margin: 0;
+	font-family: 'Roboto', sans-serif !important;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1 ;
+    background: var(--backgroundColor);
+    background: -moz-linear-gradient(to bottom, var(--biddingGradientStart), var(--biddingGradientEnd));
+    background: -webkit-linear-gradient(to bottom, var(--biddingGradientStart), var(--biddingGradientEnd));
+    background: linear-gradient(to bottom, var(--biddingGradientStart), var(--biddingGradientEnd));
+    color: var(--color) !important;
+}
+html {
+    height: 100%;
+}
+body {
+    height: 100%;
+}
+canvas[resize] {
+    width: 100%;
+    height: 100%;
+}
+label {
+    margin: 0;
+}
+h3, h5 {
+    margin-bottom: 0;
+    line-height: 1.1;
+}
+#table {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+/* #table * {
+    text-shadow: var(--biddingShadowX) var(--biddingShadowY) var(--biddingShadowBlur) var(--biddingShadowColor);
+} */
+#undoButton {
+    width: 100%;
+    height: 100%;
+    color: #555502;
+    border: none;
+    outline: none;
+    font-size: calc(var(--default-font-size) * 1);
+}
+#playingCanvas {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    background: var(--playingCanvasColor);  /*this color is displayed if browser can't read the below properties*/
+    background: -moz-linear-gradient(to right, var(--biddingGradientEnd) 0%, var(--biddingGradientStart) 45%, var(--biddingGradientStart) 55%, var(--biddingGradientEnd) 100%);
+    background: -webkit-linear-gradient(to right, var(--biddingGradientEnd) 0%, var(--biddingGradientStart) 45%, var(--biddingGradientStart) 55%, var(--biddingGradientEnd) 100%);
+    background: linear-gradient(to right, var(--biddingGradientEnd) 0%, var(--biddingGradientStart) 45%, var(--biddingGradientStart) 55%, var(--biddingGradientEnd) 100%);
+}
+#playingButtons {
+    padding: 4px;
+    background: var(--backgroundColor);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--color);
+    font-weight: 700;
+}
+#claimAmountButtons {
+    width: 100%;
+}
+#claimAmountButtons *, #undoPlayButton {
+    width: 30%;
+    max-width: 290px;
+    min-width: 20%;
+    font-size: var(--playingButtonsFontSize);
+}
+#undoPlayButton {
+    width: 60%;
+}
+#claimAmount{
+    width: 50px;
+    height: auto;
+    text-align: center;
+    background-color: #000;
+    color: white;
+    border: none;
+    outline: none;
+    font-size: calc(var(--default-font-size) * 1);
+    margin-right: 8px;
+}
+.jumbotron {
+    margin-bottom: 0px;
+    border-radius: 30px;
+}
+#flashMsg{
+    /* margin-top: 34.42px; */
+    margin: 0 !important;
+    padding: 0px;
+    width: 100%;
+    max-width: 100%;
+    position: sticky;
+    top: 0;
+    z-index:10000;
+    backface-visibility: hidden;
+    transition: all .66s ease;
+    -webkit-transition: all .66s ease;
+    -moz-transition: all .66s ease;
+    -o-transition: all .66s ease;
+}
+#flashMsg.isDuringPlaying {
+    position: fixed;
+}
+#flashMsg .alert {
+    text-shadow: none;
+    background-color: var(--biddingBidsDivBackground);
+    border-color: var(--biddingBidsDivColor);
+    color: var(--biddingBidsDivColor) !important;
+    width: 100%;
+    margin: 0 auto .25rem auto;
+    padding: 4px;
+    min-height: 0px;
+    -webkit-animation: biddingMessage 1.33s 0s var(--biddingAnimationCount) cubic-bezier(0, 0.85, 0.66, 1) alternate-reverse;
+    -moz-animation: biddingMessage 1.33s 0s var(--biddingAnimationCount) cubic-bezier(0, 0.85, 0.66, 1) alternate-reverse;
+    -ms-animation: biddingMessage 1.33s 0s var(--biddingAnimationCount) cubic-bezier(0, 0.85, 0.66, 1) alternate-reverse;
+    -o-animation: biddingMessage 1.33s 0s var(--biddingAnimationCount) cubic-bezier(0, 0.85, 0.66, 1) alternate-reverse;
+    animation: biddingMessage 1.33s 0s var(--biddingAnimationCount) cubic-bezier(0, 0.85, 0.66, 1) alternate-reverse;
+}
+#flashMsg .alert h3 {
+    font-size: 2em;
+    line-height: 125%;
+    -webkit-animation: fontGrow 1.33s 0s var(--biddingAnimationCount) cubic-bezier(0, 0.85, 0.66, 1) alternate-reverse forwards;
+    -moz-animation: fontGrow 1.33s 0s var(--biddingAnimationCount) cubic-bezier(0, 0.85, 0.66, 1) alternate-reverse forwards;
+    -ms-animation: fontGrow 1.33s 0s var(--biddingAnimationCount) cubic-bezier(0, 0.85, 0.66, 1) alternate-reverse forwards;
+    -o-animation: fontGrow 1.33s 0s var(--biddingAnimationCount) cubic-bezier(0, 0.85, 0.66, 1) alternate-reverse forwards;
+    animation: fontGrow 1.33s 0s var(--biddingAnimationCount) cubic-bezier(0, 0.85, 0.66, 1) alternate-reverse forwards;
+}
+@keyframes biddingMessage { 
+    0% { 
+        opacity: 0;
+    }
+    20% {
+        border-color: var(--biddingUndoColor);
+        opacity: .75;
+    }
+}
+@keyframes fontGrow { 
+    0% { 
+        /* font-size: 0px; */
+        transform: scale(0);
+    }
+    100% {
+        /* font-size: calc(var(--default-font-size) * 1.3); */
+        transform: scale(1);
+    }
+}
+.bidButtonAnimation {
+    -webkit-animation: greenSwell 1.5s 0s infinite linear alternate-reverse forwards;
+    -moz-animation: greenSwell 1.5s 0s infinite linear alternate-reverse forwards;
+    -ms-animation: greenSwell 1.5s 0s infinite linear alternate-reverse forwards;
+    -o-animation: greenSwell 1.5s 0s infinite linear alternate-reverse forwards;
+    animation: greenSwell 1.5s 0s infinite linear alternate-reverse forwards;
+}
+@keyframes greenSwell { 
+    0% { 
+        background-color: var(--biddingGreen);
+        color: var(--backgroundColor);
+    }
+    100% {
+        background-color: var(--backgroundColor);
+        color: var(--color);
+    }
+}
+#thinkingDivTop, #thinkingDivBottom, #thinkingDivLeft, #thinkingDivRight {
+    min-height: 22px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    padding: 0 1em .375em 1em;
+    background: var(--biddingUndoColor);
+}
+#spadeThinking { 
+    -webkit-animation: thinking 1s .3s infinite cubic-bezier(0, 0, 1, -0) both;
+    -moz-animation: thinking 1s .3s infinite cubic-bezier(0, 0, 1, -0) both;
+    -ms-animation: thinking 1s .3s infinite cubic-bezier(0, 0, 1, -0) both;
+    -o-animation: thinking 1s .3s infinite cubic-bezier(0, 0, 1, -0) both;
+    animation: thinking 1s .3s infinite cubic-bezier(0, 0, 1, -0) both;
+    color: var(--biddingBidsMadeDivColor) !important;
+}
+#heartThinking{
+    -webkit-animation: thinking 1s .2s infinite cubic-bezier(0, 0, 1, -0) both;
+    -moz-animation: thinking 1s .2s infinite cubic-bezier(0, 0, 1, -0) both;
+    -ms-animation: thinking 1s .2s infinite cubic-bezier(0, 0, 1, -0) both;
+    -o-animation: thinking 1s .2s infinite cubic-bezier(0, 0, 1, -0) both;
+    animation: thinking 1s .2s infinite cubic-bezier(0, 0, 1, -0) both;
+}
+#clubThinking{
+    -webkit-animation: thinking 1s .1s infinite cubic-bezier(0, 0, 1, -0) both;
+    -moz-animation: thinking 1s .1s infinite cubic-bezier(0, 0, 1, -0) both;
+    -ms-animation: thinking 1s .1s infinite cubic-bezier(0, 0, 1, -0) both;
+    -o-animation: thinking 1s .1s infinite cubic-bezier(0, 0, 1, -0) both;
+    animation: thinking 1s .1s infinite cubic-bezier(0, 0, 1, -0) both;
+    color: var(--biddingBidsMadeDivColor) !important;
+
+}
+#diamondThinking{
+    -webkit-animation: thinking 1s 0s infinite cubic-bezier(0, 0, 1, -0) both;
+    -moz-animation: thinking 1s 0s infinite cubic-bezier(0, 0, 1, -0) both;
+    -ms-animation: thinking 1s 0s infinite cubic-bezier(0, 0, 1, -0) both;
+    -o-animation: thinking 1s 0s infinite cubic-bezier(0, 0, 1, -0) both;
+    animation: thinking 1s 0s infinite cubic-bezier(0, 0, 1, -0) both;
+}
+@keyframes thinking { 
+    0% { 
+        opacity: 1; 
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+#thinkingSuits {
+    font-size: 24px;
+    font-weight: 700;
+}
+.col-2 button, .col-6 button {
+    /* margin: 2px 0; */
+}
+
+.no-cssanimations {  
+    opacity: 1;
+}
+
+.noMarginTop{
+    margin-top: 0px !important;
+}
+
+.textboxes{
+    width: 500px;
+    padding: 0;
+}
+
+.form-group {
+    margin-bottom: .5rem;
+}
+
+
+
+.btn {
+    /* padding: 0px; */
+}
+
+.cardPoints {
+    display: grid;
+    grid-template-columns: 1fr 50% 1fr;
+    grid-template-rows:  100%;
+    align-items: center;
+    justify-content: center;
+    /* overflow: hidden; */
+}
+.cardPoints h6 {
+    font-size: calc(var(--default-font-size) * 1);
+    margin: 0px;
+}
+.opponentPoints {
+    display: grid;
+    grid-template-columns: 25% 50% 25%;
+    grid-template-rows:  100%;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.row {
+    /* height: 33%; */
+    justify-content: center;
+    align-items: center;
+    width: 100% !important;
+    margin: 0;
+    padding: 0;
+}
+
+.col-2, .col-6 {
+    padding: 0px;
+    margin: 0px;
+}
+
+.col-2 {
+    width: 20%;
+    max-width: 20%;
+    flex: 0 0 20%;
+}
+.col-2>button, .col-6>button {
+    background: var(--biddingButtonBackground);
+    color: var(--biddingButtonColor);
+}
+
+#resetButton, #doubleButton {
+    margin-left: 2px;
+    width: 99.1% !important;
+}
+#resetButton {
+    color: var(--biddingButtonColor);
+    background: var(--biddingButtonBackground);
+}
+#resetButton:hover {
+    background: var(--claimYesBackgroundHover);
+    color: var(--biddingButtonBackground);
+}
+.btn-outline-dark:hover{
+    color: #ffffff;
+    background: var(--claimYesBackgroundHover);
+}
+#makeBidButton, #passButton {
+    margin-right: 2px;
+    width: 99.1% !important;
+}
+
+#makeBidButton:hover {
+    animation: none;
+    color: var(--biddingButtonBackground);
+    background: var(--claimYesBackgroundHover);
+}
+#makeBidButton, #resetButton {
+    margin-top: 4px;
+}
+
+#doubleButton, #passButton {
+    margin-bottom: 4px;
+}
+.selected {
+    background: var(--biddingButtonSelected) !important;
+    color: #ffffff !important;
+}
+.hidden {
+    position: absolute !important;
+    top: -9999px !important;
+    left: -9999px !important;
+    transform: scale(0) !important;
+}
+.isNotUsersTurn {
+    background: var(--biddingDisabledColor) !important;
+	color: #000 !important;
+	cursor: not-allowed;
+    pointer-events: all;
+    opacity: var(--disabledOpacity) ;
+}
+.claimCardBottom, .claimCardTop {
+    transition: all .66s ease;
+    -webkit-transition: all .66s ease;
+    -moz-transition: all .66s ease;
+    -o-transition: all .66s ease;
+}
+.btn.disabled, .btn:disabled {
+    opacity: calc(var(--disabledOpacity) * 2);
+}
+.disabled {
+	background: var(--biddingDisabledColor) !important;
+	color: #fff !important;
+	cursor: not-allowed;
+	pointer-events: none;
+}
+.suits {
+    outline: none;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.bidsContainer{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    height: 100%;
+    padding: 0; 
+    margin: 0;
+    justify-content: flex-start;
+}
+.bidBorder {
+    border: var(--biddingBorderWidthThin) solid var(--claimNoBackgroundHover);
+    height: 100px;
+    /* max-height: 100px; */
+    width: 185px;
+    margin: 4px auto;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    overflow: hidden;
+    border-radius: 10px;
+    font-size: 18px;
+}
+.regularBoxShadow {
+    -webkit-box-shadow:  0px 2.5px 4px rgba(0,0,0,.66);
+	-moz-box-shadow:  0px 2.5px 4px rgba(0,0,0,.66);
+    box-shadow: 0px 2.5px 4px rgba(0,0,0,.66);
+}
+.isUsersTurnToBid {
+    border: var(--biddingBorderWidthThick) solid var(--color) !important;
+    -webkit-box-shadow:  0px 5px 4px rgba(0,0,0,.75);
+	-moz-box-shadow:  0px 5px 4px rgba(0,0,0,.75);
+    box-shadow: 0px 5px 4px rgba(0,0,0,.75);
+    transform: scale(1.05);
+    z-index: 100;
+}
+
+.bidBorder>label {
+    background: var(--backgroundColor);
+    border-bottom: var(--biddingBorderWidthThinnest) solid var(--color) !important;
+}
+.topBorder {
+    margin-bottom: 0 !important;
+}
+.bottomBorder {
+    margin: 0 auto !important;
+}
+
+.dealer{
+    font-size: .66rem;
+}
+
+#rowContainer {
+    border-bottom: var(--biddingBorderWidthThin) var(--color) solid;
+    border-left: var(--biddingBorderWidthThick) var(--color) solid;
+    border-right: var(--biddingBorderWidthThick) var(--color) solid;
+    border-top: var(--biddingBorderWidthThick) var(--color) solid;
+    margin: 4px auto 0 auto;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    height: calc(var(--card-height) + 315);
+    min-height: 290px;
+    border-radius: 32px 32px 0 0;
+    width: calc(var(--container-width) * var(--biddingPhaseContainerWidthFactor));
+    background: var(--claimNoBackgroundHover);
+}
+
+#top, #right, #left, #bottom{
+    margin-top: 0px;
+    padding-top: 4px !important;
+    width: 100%;
+    line-height: 1;
+}
+
+#leftBids, #rightBids,#topBids,#bottomBids {
+    /* padding-bottom: 4px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+#bidContainer{
+    width: calc(var(--container-width) * var(--biddingPhaseContainerWidthFactor));
+    border-top: var(--biddingBorderWidthThin) var(--color) solid;
+    border-bottom: var(--biddingBorderWidthThick) var(--color) solid;
+    border-left: var(--biddingBorderWidthThick) var(--color) solid;
+    border-right: var(--biddingBorderWidthThick) var(--color) solid;
+    border-radius: 0px 0px 32px 32px;
+    padding: 0px 8px 4px 8px;
+    overflow: hidden;
+    background: var(--claimYesBackgroundHover);
+}
+
+#bidContainer button {
+    font-size: 1.7rem;
+    width: 97.5%;
+    padding: 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#bidContainer .row{
+    /* height: 59px; */
+    justify-content: center;
+    align-items: center;
+}
+#cardsDivGrid {
+    display: grid;
+    grid-template-columns: 1fr 75% 1fr;
+    grid-template-rows: 10%;
+    width: 100%;
+    overflow: hidden;
+}
+#cardsDivGrid>div>label {
+    margin-top: .25em;
+}
+#cardsDiv{
+    position: relative;
+    height: var(--card-height);
+    width: 70%;
+    margin: 4px auto 0px auto;
+    overflow: hidden;
+    border-radius: 1.05em 1em 0 0;
+    border-right: var(--biddingBorderWidthThin) solid #000;
+    border-top: var(--biddingBorderWidthThinnest) solid #000;
+}
+#autoPassDiv, #autoPassDurationDiv {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+}
+#autoPass, #autoPassDuration {
+    margin-top: .15em;
+    /* width: 66%; */
+    border-radius: 30px;
+    text-align-last: center;
+    background: var(--backgroundColor);
+    color: var(--color);
+}
+#pointsDiv, #ownPointsDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    line-height: var(--default-line-height);
+}
+#opponentPointsDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    line-height: var(--default-line-height);
+    max-height: 100px;
+}
+.timerValue {
+    color: var(--biddingRedThinkingDiv);
+}
+.smallFont {
+    font-size: calc(var(--default-font-size) * .575);
+    font-weight: 500;
+}
+
+.pointRow {
+    padding: 0px calc(var(--default-font-size) * 1.4);
+    margin: 0px;
+}
+.bidsDiv{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--biddingBidsDivBackground);
+
+}
+.bidsDiv * {
+    color: var(--biddingBidsDivColor);
+}
+.bidsDiv>span .blackSuitBidding{
+    color: var(--biddingBidsDivColor) !important;
+}
+.biddingTableItem .blackSuitBidding  {
+    color: var(--biddingBidsMadeDivColor) !important;
+}
+.biddingDivSummary .biddingTableItem .blackSuitBidding {
+    color: var(--dealSummaryHandsBlack) !important;
+}
+#lastBid>span .blackText, #lastBid>span.redSuitBidding {
+    color: var(--color) !important;
+}
+.lastBid {
+    font-size: calc(var(--default-font-size) * 2);
+}
+.lastBid .clubIconSmall {
+    width: 30.5px;
+    margin-left: 2px;
+}
+.lastBid .diamondIconSmall {
+    width: 35px;
+    margin-left: 2px;
+}
+.lastBid .heartIconSmall {
+    width: 34px;
+    margin-left: 2px;
+}
+.lastBid .spadeIconSmall {
+    width: 30px;
+    margin-left: 2px;
+}
+
+
+
+#highCardPoints, #distributionPoints, #yourAboveTheLinePoints, #yourBelowTheLinePoints, #yourVulnerable, #opponentAboveTheLinePoints, #opponentBelowTheLinePoints, #opponentVulnerable, #yourGameOnePoints, #yourGameTwoPoints, #opponentGameOnePoints, #opponentGameTwoPoints {
+    font-weight: 700;
+}
+
+#currentBidder {
+    font-weight: 700;
+    font-size: 2.38rem;
+    margin-top: 17%;
+}
+
+.cards {
+    height: 290px;
+}
+
+#forgotPasswordForm, #pwdResetForm{
+    width: 400px;
+    margin: auto;
+}
+
+/* Start of Deal/Game Table Summary Stuff */
+.dealSummary {
+    width: var(--dealSummaryTableWidth);
+    padding: .25em 1.25em .75em 1.25em;
+    color: var(--backgroundColor);
+    border: var(--biddingBorderWidthThick) solid var(--color);
+    margin-bottom: .5em;
+}
+.dealSummary * {
+    font-weight: 750;
+}
+.dealSummaryLast {
+    border-radius: 30px 30px 0 0 !important;
+}
+.dealSummary h5 {
+    font-weight: 400;
+}
+.dealSummaryTable {
+    padding-bottom: .25em;
+}
+#dealSummaryHeaderTop *{ 
+    font-weight: 700;
+}
+#dealSummaryDetailsButtonDiv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#readyToContinueTable {
+    background: var(--dealSummaryTable);
+    width: var(--dealSummaryTableWidth);
+    padding: calc(var(--default-font-size) / 0)  calc(var(--default-font-size) / 1) calc(var(--default-font-size) * 0) calc(var(--default-font-size) / 2) ;
+    border-radius: 0;
+    border-top: var(--biddingBorderWidthThick) solid var(--color);
+    border-left: var(--biddingBorderWidthThick) solid var(--color);
+    border-right: var(--biddingBorderWidthThick) solid var(--color);
+}
+#readyToContinueTable.bidding {
+    /* Mobile */
+    width: 98%;
+    max-width: 502.5px;
+    padding: 0px !IMPORTANT;
+    border-left: var(--biddingBorderWidthThick) solid var(--color);
+    border-right: var(--biddingBorderWidthThick) solid var(--color);
+    border-top: 1px solid var(--color);
+    background: var(--dealSummaryTable);
+    color: var(--color);
+    border-radius: 0px;
+    margin: 0px auto;
+}
+#readyToContinueTable.bidding * {
+    color: var(--dealSummaryHandsBlack);
+    background: var(--dealSummaryTable);
+}
+#readyToContinueTable * {
+    color: var(--dealSummaryHandsBlack);
+    background: var(--dealSummaryTable);
+    font-family: var(--continueTableFont);
+}
+#readyToContinueTable .table th {
+    padding: 0.38em .25em .25em .25em !important;
+}
+#readyToContinueTable.bidding .table th {
+    padding: .25em !important;
+}
+#readyToContinueTable .table td:last-child {
+    padding: 0.25em .25em .38em .25em !important;
+}
+#readyToContinueBiddingLabel {
+    padding: .5em;
+    font-weight: 700;
+    font-size: 2em;
+    background: var(--claimNoBackgroundHover);
+    font-family: var(--continueTableFont);
+}
+.dealSummaryInfo{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 100%;
+    margin: 0 auto;
+}
+.dealSummaryInfo h5 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.dealSummaryHeaderBottomLower {
+    margin-bottom: 4px;
+}
+.table, #handsDiv h5{
+    margin: 0;
+}
+#handsDiv {
+    background: var(--dealSummaryHandsBackground);
+    color: var(--dealSummaryHandsBlack);
+    border-top: var(--biddingBorderWidthThick) solid var(--dealSummaryTableBorder);
+    border-right: var(--biddingBorderWidthThick) solid var(--dealSummaryTableBorder);
+    border-left: var(--biddingBorderWidthThick) solid var(--dealSummaryTableBorder);
+    padding: .5em 1em;
+    margin-top: .25em;
+}
+.biddingDone {
+    transition: opacity 10s cubic-bezier(0.39, 0.58, 0.57, 1) !important;
+    -webkit-transition: opacity 10s cubic-bezier(0.39, 0.58, 0.57, 1) !important;
+    -moz-transition: opacity 10s cubic-bezier(0.39, 0.58, 0.57, 1) !important;
+    -o-transition: opacity 10s cubic-bezier(0.39, 0.58, 0.57, 1) !important;
+    opacity: .85 !important;
+}
+.table thead th {
+    border-bottom: var(--biddingBorderWidthThin) solid var(--dealSummaryTableBorder);
+    font-weight: 700;
+}
+.bidding .table thead th {
+    border-bottom: var(--biddingBorderWidthThin) solid var(--dealSummaryTableBorder);
+    border-top: var(--biddingBorderWidthThin) solid var(--dealSummaryTableBorder);
+}
+.bidding .table td {
+    border-bottom: var(--biddingBorderWidthThin) solid var(--dealSummaryTableBorder);
+}
+.bidding .table td * {
+    color: var(--color);
+}
+.table td { 
+    border-top: var(--biddingBorderWidthThinnest) solid var(--dealSummaryTableBorder);
+}
+.table th {
+    border-top: none;
+}
+.table-bordered {
+    border: var(--biddingBorderWidthThinnest) solid var(--color) !important;
+    margin: calc(var(--biddingBorderWidthThick) * 3) auto;
+}
+.table-bordered th {
+    border: var(--biddingBorderWidthThinnest) solid var(--dealSummaryTableBorder) !important;
+}
+.handDiv *, .table *, #handsDiv h5, .dealSummaryInfo h5, #dealSummaryBottom *, .dealSummaryHonors *, #finalScoreSummary *{
+    font-size: calc(var(--default-font-size) * 1);
+    font-weight: 500;
+}
+#resultSentence {
+    font-size: calc(var(--default-font-size) * .75);
+    margin: 16px 0px;
+    padding: 0 1em;
+}
+#finalScoreSummary h4 {
+    font-size: calc(var(--default-font-size) * 1.25);
+    font-weight: 700;
+}
+.table th {
+    padding: .25em .125em !important;
+    vertical-align: middle !important;
+}
+.table td {
+    padding: .15em .125em !important;
+    vertical-align: middle !important;
+    font-weight: 500;
+}
+.table .thead-dark th {
+    background: var(--dealSummaryTable);
+    color: var(--dealSummaryHandsBlack);
+}
+#dealSummaryTableColumnHeader1 {
+    width: 5%;
+} 
+#dealSummaryTableColumnHeader2 {
+    width: 5%;
+}
+#dealSummaryTableColumnHeader3 {
+    width: 100%;
+} 
+#dealSummaryTableColumnHeader4 {
+    width: 5%;
+} 
+.dealSummaryCardsPlayedRow span{
+    width: 3vw;
+}
+.dealSummaryInfoContract {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#dealSummaryHeaderTop {
+    margin: 0px;
+    padding-top: 0px;
+    font-size: 2.5em;
+}
+.dealSummaryHeaderBottomLeft {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: column;
+    /* margin-bottom: 16px; */
+}
+#dealSummaryBottom {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+.dealSummaryHeaderBottomRight {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-direction: column;
+    /* margin-bottom: 16px; */
+}
+.dealSummaryBottomMiddle {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: column;
+}
+.dealSummaryBottomRight {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+}
+/* #dealSummaryBottom *, .dealSummaryHonors * {
+    font-size: calc(var(--default-font-size));
+} */
+.dealSummaryPointsContractPoints, .dealSummaryPointsOverTrickPoints, .dealSummaryPointsUnderTrickPoints {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.dealSummaryPointsContractPointsTotal, .dealSummaryTricksResultTotal, .dealSummaryPointsOverTrickPointsTotal, .dealSummaryPointsUnderTrickPointsTotal, .dealSummaryTricksWonTotal, .dealSummaryTricksNeededTotal, .dealSummaryHeaderBottomLeft>h5>strong>span, .dealSummaryHeaderBottomRight>h5>strong>span {
+    margin-left: .25em;
+}
+#dealSummaryButtons{
+    margin: 8px auto 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--claimYesBackgroundHover);
+    margin: -1px auto 0 auto;
+    width: var(--dealSummaryTableWidth);
+    padding: 1em 0;
+    border-radius: 0 0 30px 30px;
+    border-top: var(--biddingBorderWidthThick) solid var(--color);
+    border-bottom: var(--biddingBorderWidthThick) solid var(--color);
+    border-left: var(--biddingBorderWidthThick) solid var(--color);
+    border-right: var(--biddingBorderWidthThick) solid var(--color);
+}
+#dealSummaryButtons.bidding{
+    width: 98%;
+    max-width: 502.5px;
+    border-top: var(--biddingBorderWidthThick) solid var(--color);
+    border-left: var(--biddingBorderWidthThick) solid var(--color);
+    border-right: var(--biddingBorderWidthThick) solid var(--color);
+    border-bottom: var(--biddingBorderWidthThick) solid var(--color);
+    background: var(--claimNoBackgroundHover);
+}
+#dealSummaryContinueButton, #dealSummaryQuitButton {
+    backface-visibility: hidden;
+    margin: 0 4px;
+    width: 7em;
+    min-width: 3.5em;
+    font-size: 1.5em;
+}
+#dealSummaryContinueButton {
+    background: var(--backgroundColor);
+    color: var(--color);
+    border: calc(var(--biddingBorderWidthThick) * 3 / 4) solid var(--color);
+}
+#dealSummaryQuitButton {
+    background: var(--backgroundColor);
+    color: var(--color);
+    border: calc(var(--biddingBorderWidthThick) * 3 / 4) solid var(--color);
+}
+#dealSummaryContinueButton:hover {
+    color: var(--backgroundColor);
+    background: var(--color);
+}
+#dealSummaryQuitButton:hover {
+    color: var(--backgroundColor);
+    background: var(--color);
+}
+.dealSummaryBottomLeft {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: column;
+}
+.dealSummaryTricksWon, .dealSummaryTricksNeeded, .dealSummaryTricksResult {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.dealSummaryTricksWon, .dealSummaryTricksNeeded {
+    margin-bottom: 0px;
+}
+#dealSummaryDetailsButton {
+    width: 100%;
+}
+#readyToContinueTable { 
+    margin-top: -16px;
+}
+
+.divider {
+    margin: 8px auto;
+    width: var(--dealSummaryTableWidth);;
+}
+#finalScoreSummary {
+    background: var(--dealSummaryHandsBackground);
+    color: var(--dealSummaryHandsBlack);
+    width: var(--dealSummaryTableWidth);
+    margin: 0 auto;
+    border-radius: 30px 30px 0 0;
+    padding: .5em 0 1em 0;
+    border: var(--biddingBorderWidthThick) solid var(--color);
+}
+#finalScoreTable {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(7, 1fr);
+    color: var(--gameSummaryScoreTableColor);
+}
+#finalScoreTable > * {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .25em;
+}
+#finalScoreTable h5:nth-child(3n + 1) {
+    border-left: none;
+}
+#finalScoreTable h5:nth-child(3n + 3) {
+    border-right: none;
+}
+.tableBottom {
+    border-bottom: 1px solid black;
+}
+.tableRight {
+    border-right: 1px solid black;
+}
+.tableTopLeft{
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+}
+/* Start of hand at trick x part of table */
+.detailsButton{
+    transition: all .5s cubic-bezier(0.26, 0.6, 1, 0.59);
+    -webkit-transition: all .5s cubic-bezier(0.26, 0.6, 1, 0.59);
+    -moz-transition: all .5s cubic-bezier(0.26, 0.6, 1, 0.59);
+    font-size: 2.45vw;
+    width: 100%;
+    max-width: 8em;
+    height: 90%;
+    padding: .125em .5em;
+}
+.detailsButton, .detailsButton:active, .detailsButton:focus {
+    background: var(--backgroundColor);
+    color: var(--color);
+    border: calc(var(--biddingBorderWidthThick) * 3 / 4) solid var(--color);
+}
+.detailsButton:hover {
+    color: var(--backgroundColor);
+    background: var(--color);
+}
+.notSelectedItems{
+    margin: 0 auto;
+    visibility: hidden;
+    opacity: 0;
+    height: 0;
+    max-height: 0;
+    transform: scale(0);
+    /* width: 0;
+    max-width: 0; */
+    transition: all .5s cubic-bezier(0.26, 0.6, 1, 0.59);
+    -webkit-transition: all .5s cubic-bezier(0.26, 0.6, 1, 0.59);
+    -moz-transition: all .5s cubic-bezier(0.26, 0.6, 1, 0.59);
+}
+.selectedItems {
+    margin: 0 auto;
+    visibility: visible;
+    opacity: 1;
+    transform: scale(1);
+    max-height: 1000px;
+    width: 100%;
+    height: 100%;
+    max-width: 1000px;
+    transition: all .5s cubic-bezier(0.26, 0.6, 1, 0.59);
+    -webkit-transition: all .5s cubic-bezier(0.26, 0.6, 1, 0.59);
+    -moz-transition: all .5s cubic-bezier(0.26, 0.6, 1, 0.59);
+}
+.isNotSelected {
+    margin: 0 auto;
+    opacity: 0;
+    transform: scale(0);
+    transition: all .5s cubic-bezier(0.26, 0.6, 1, 0.59);
+    -webkit-transition: all .5s cubic-bezier(0.26, 0.6, 1, 0.59);
+    -moz-transition: all .5s cubic-bezier(0.26, 0.6, 1, 0.59);
+}
+.isSelected {
+    margin: 0 auto;
+    margin-top: .33em;
+    padding: 4px;
+    visibility: visible;
+    transform: scale(1);
+    opacity: 1;
+    transition: all .5s cubic-bezier(0.26, 0.6, 1, 0.59);
+    -webkit-transition: all .5s cubic-bezier(0.26, 0.6, 1, 0.59);
+    -moz-transition: all .5s cubic-bezier(0.26, 0.6, 1, 0.59);
+}
+.notSelectedTable{
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    max-height: 0;
+    opacity: 0;
+    transform: scale(0);
+    transition: all .5s cubic-bezier(0.26, 0.6, 1, 0.59);
+    -webkit-transition: all .5s cubic-bezier(0.26, 0.6, 1, 0.59);
+    -moz-transition: all .5s cubic-bezier(0.26, 0.6, 1, 0.59);
+}
+.selectedTable{
+    position: static;
+    max-height: 100%;
+    transform: scale(1);
+    opacity: 1;
+    transition: all .5s cubic-bezier(0.26, 0.6, 1, 0.59);
+    -webkit-transition: all .5s cubic-bezier(0.26, 0.6, 1, 0.59);
+    -moz-transition: all .5s cubic-bezier(0.26, 0.6, 1, 0.59);
+}
+.invisible{
+    transform: scale(0) !important;
+    transition: all .5s ease-in;
+    -webkit-transition: all .5s ease-in;
+    -moz-transition: all .5s ease-in;
+    -o-transition: all .5s ease-in;
+}
+.unplayable {
+    /* opacity: .9; */
+    filter: brightness(.5) invert(0);
+    /* pointer-events: none !important; */
+}
+.slide{
+    transform: scale(0) !important;
+}
+.slideTransition {
+    transition: all .25s ease-in;
+    -webkit-transition: all .25s ease-in;
+    -moz-transition: all .25s ease-in;
+    -o-transition: all .25s ease-in;
+}
+.transition {
+    transition: box-shadow .5s linear,  transform .5s linear;
+    -webkit-transition: box-shadow .5s linear,  transform .5s linear;
+    -moz-transition: box-shadow .5s linear,  transform .5s linear;
+}
+.bidButtontransition {
+    transition: all .1s ease;
+    -webkit-transition: all .1s ease;
+    -moz-transition: all .1s ease;
+}
+.dealSummaryCardsInHand {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: flex-start;
+    border-top: var(--biddingBorderWidthThin) var(--dealSummaryTableBorder) dashed;
+}
+.dealSummaryCardsInHand h5, .handName, .handNameTable, #handsDiv h5 {
+    font-weight: 700;
+}
+.handName {
+    margin-right: 8px;
+}
+.handDiv, .handDivTableTop {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: var(--default-font-size);
+}
+.handDivTableTop {
+    margin-left: 8px;
+}
+#handsDiv h5, .dealSummaryCardsInHand h5 {
+    text-decoration: underline;
+}
+.dealSummaryCardsInHand h5 {
+    align-self: center;
+}
+.slamBonusDiv, .dealSummaryHonors {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 12px;
+}
+.slamBonusDiv *{
+    backface-visibility: hidden;
+    -webkit-animation: growAndShrink 1.25s 0s infinite linear normal both;
+    -moz-animation: growAndShrink 1.25s 0s infinite linear normal both;
+    -ms-animation: growAndShrink 1.25s 0s infinite linear normal both;
+    -o-animation: growAndShrink 1.25s 0s infinite linear normal both;
+    animation: growAndShrink 1.25s 0s infinite linear normal both;
+}
+.startAnimation {
+    backface-visibility: hidden;
+	-webkit-animation: highlightStart .85s 0s infinite linear normal none;
+	-moz-animation: highlightStart .85s 0s infinite linear normal none;
+	-ms-animation: highlightStart .85s 0s infinite linear normal none;
+	-o-animation: highlightStart .85s 0s infinite linear normal none;
+	animation: highlightStart .85s 0s infinite linear normal none;
+}
+@keyframes highlightStart { 
+	0% { 
+		transform: scale(1.1);
+		color: white !important;
+	}
+	100% {
+		transform: scale(.9);
+		color: black !important;
+	}
+}
+.no-cssanimations .slideshow li { 
+    opacity: 1;
+}
+#gameSummaryLoading { 
+    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#loadAnimationDiv{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 66%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#gameSummaryLoadingTitle { 
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    width: 90%;
+    transform: translate(-50%, -50%);
+    font-size: 7vw;
+    text-align: center;
+    font-weight: 700;
+}
+#gameSummaryLoadingSubTitle {
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 7vw;
+    font-weight: 700;
+    text-align: center;
+}
+.clubIconLoading, .diamondIconLoading, .heartIconLoading, .spadeIconLoading {
+    width: 50% !important;
+}
+.won {
+    background: var(--dealSummaryWon) !important;
+}
+.loss {
+    background-color: var(--dealSummaryLoss) !important;
+}
+.dealSummaryUnplayed {
+    background: var(--dealSummaryUnplayedBackground) !important;
+    color: var(--dealSummaryUnplayedColor) !important;
+}
+.tie {
+    background-color: var(--biddingUndoColor) !important;
+    color: var(--backgroundColor);
+}
+.table-danger>td, .table-danger>th, .table-danger>td:nth-child(3n+3) {
+    background-color: var(--redSuit) !important;
+    color: var(--backgroundColor) !important;
+}
+.table-success>td:nth-child(3n+1), .table-success>th, .table-success>td:nth-child(3n+3) {
+    background-color: var(--greenCheck) !important;
+    color: var(--backgroundColor) !important;
+}
+.table-bordered td {
+    border: var(--biddingBorderWidthThinnest) solid var(--dealSummaryTableBorder) !important;
+    background: var(--dealSummaryHandsBackground) !important;
+    color: var(--dealSummaryHandsBlack) !important;
+}
+.redSuit {
+    color: var(--biddingRedSuit) !important; 
+}
+.contractRedSuit {
+    color: var(--dealSummaryContractRed) !important;
+}
+.dealSummaryHandsRed {
+    color: var(--dealSummaryHandsRed) !important;
+}
+#responseDiv.redSuit {
+    color: var(--redSuit) !important;
+}
+.greenCheck, #responseDiv.greenCheck {
+    color: var(--greenCheck) !important;
+}
+.thinkingDiv .redSuitBidding {
+    color: var(--biddingRedThinkingDiv) !important;
+}
+.biddingTableItem .redSuitBidding {
+    color: var(--biddingRedBiddingDiv) !important;
+}
+.biddingDivSummary .biddingTableItem .redSuitBidding {
+    color: var(--dealSummaryHandsRed) !important;
+}
+.bidButton .redSuitBidding {
+    color: var(--biddingRedButton) !important;
+}
+.bidButton *, .bidButton, #passButton, #doubleButton, #makeBidButton, #resetButton {
+    text-shadow: 0 .125em .125em rgba(0, 0, 0, .2);
+}
+
+.redSuitBidding{
+    color: var(--biddingRedSuit) !important;
+    width: 100%;
+    transform: scale(1.1);
+}
+.redSuitPlaying{
+    color: var(--redSuit) !important;
+    width: 100%;
+    transform: scale(1.1);
+}
+.blackSuitBidding {
+    width: 100%;
+    transform: scale(1.1);
+}
+#lastTricksGrid>div>h5 .blackSuitBidding, #contractDiv>h5 .blackSuitBidding {
+    color: var(--color) !important;
+}
+.bidButton .blackText {
+    color: var(--biddingBlackText);
+}
+.isNotUsersTurn .blackText {
+    color: #000 !important;
+}
+.blackText {
+    color: var(--biddingBidsDivColor);
+}
+.biddingDivSummary .blackText {
+    color: var(--dealSummaryHandsBlack);
+}
+#undoMsg .redSuitBidding, #undoMsg .blackText {
+    color: var(--backgroundColor) !important;
+}
+.readySymbol {
+    color: var(--dealSummaryReadySymbols) !important;
+}
+.readySymbol, .notReadySymbol {
+    font-weight: 700;
+    font-size: 1em;
+}
+@keyframes growAndShrink { 
+    0% { 
+        transform: scale(1);
+        color: var(--backgroundColor);
+    }
+    10%{
+        color: var(--biddingUndoColor);
+    }
+    50% {
+        transform: scale(1.25);
+    }
+    100% { 
+        color: var(--backgroundColor);
+        transform: scale(1);
+    }
+}
+/* End of Deal/Game Table Summary Stuff */
+#right, #left, #bottom{
+    margin: 0;
+    padding: 16px 0 0 0;
+}
+.col-6 {
+    padding:0;
+    margin: 0;
+}
+.bidsContainer {
+    padding: 0 4px;
+    margin: 0 0px;
+}
+#westRow>.bidsContainer, #eastRow>.bidsContainer {
+    padding: 0 10px;
+}
+#currentBidder {
+    font-size: 1.75rem;
+}
+/* UndoButtonResponse --------------------------------------------------------------------------------------*/
+#undoBidButton {
+    background: var(--biddingBidsDivBackground);
+    color: var(--biddingBidsDivColor);
+    font-size: 1.5em;
+    border: var(--biddingBorderWidthThick) solid var(--color);
+}
+#undoBidButton:hover {
+    background: var(--claimYesBackgroundHover);
+    color: var(--color);
+}
+#claim.undoRequestResponse {
+    transform: scale(1);
+    top: 15%;
+    bottom: 15%;
+    left: 15%;
+    right: 15%;
+    justify-content: flex-start;
+}
+#claimHeader.undoRequestResponse {
+    background: var(--color);
+    color: var(--backgroundColor);
+}
+#claimTitle.undoRequestResponse {
+    padding: 0 16px;
+    
+}
+#claim.claimLeft #claimBody, #claim.claimRight #claimBody {
+    justify-content: flex-end;
+    padding-bottom: 5rem;
+    overflow: hidden;
+}
+#claimBody.isDefense #cancelClaimButton {
+    position: relative;
+}
+#claimBody.isDefense #leftUserReadyStatus, #claimBody.isDeclarer #leftUserReadyStatus {
+    margin-top: 0;
+}
+#claimBody.isDefense #leftUserReadyStatus.extraPaddingTop {
+    margin-top: 1em;
+}
+
+#claimBody.undoRequestResponse {
+    display: flex;
+    flex-direction: column;
+    /* padding: 32px; */
+    justify-content: space-evenly;
+}
+#claimBody.undoRequestResponse>button {
+    width: 75%;
+    max-width: 6em;
+    height: 33%;
+    font-size: 5em;
+    min-height: 1.8em;
+}
+#claimBody.claimSomeDefenseSummary {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+#claimBody.claimSomeDefenseSummary #claimButtons button{
+    min-height: 17.5vmin;
+    font-size: 10vmin;
+    position: absolute;
+    top: auto;
+    bottom: 0;
+    width: 100%;
+    left: 50%;
+    height: 25%;
+    transform: translate(-50%, 0%);
+    border-radius: 0 !important;
+}
+#partnersClaimedCards {
+    position: relative;
+    height: 50%;
+    overflow: hidden;
+}
+#undoClose {
+ color: #fff;
+}
+#overlay.undoRequestResponse {
+    z-index: 1000;
+}
+#undoResponseYes {
+    background: var(--playAreaFillColor);
+    color: var(--backgroundColor);
+}
+#undoResponseNo {
+    background: var(--redSuit);
+    color: var(--backgroundColor)
+}
+#undoResponseYes:hover, #undoResponseNo:hover  {
+    background: #fff;
+    color: #000;
+}
+#claimYes, #claimNo, #claimReset {
+    width: 50%;
+    margin: 0;
+    border-radius: 0 !important;
+}
+#claimYes, #undoResponseYes {
+    background: var(--claimYesBackground) ;
+    color: var(--claimYesColor) ;
+}
+#claimNo, #undoResponseNo {
+    background: var(--claimNoBackground) ;
+    color: var(--claimNoColor) ;
+}
+#claimYes:hover, #undoResponseYes:hover {
+    background: var(--claimYesBackgroundHover);
+    color: var(--claimYesColorHover);
+}
+#claimNo:hover, #undoResponseNo:hover {
+    background: var(--claimNoBackgroundHover);
+    color: var(--claimNoColorHover);
+}
+#claimReset{
+    background: var(--claimResetBackground);
+    color: var(--claimResetColor);
+}
+#claimReset:hover{
+    background: var(--claimResetBackgroundHover);
+    color: var(--claimResetColorHover);
+}
+
+/* ------------------------------------------------------------------------------------------------------- */
+/* undoPlayButton----------------------------------------------------------------------------------------- */
+#undoPlayButtonDiv {
+    width: 50%;
+}
+/* ------------------------------------------------------------------------------------------------------- */
+/* Modal ------------------------------------------------------------------------------------------------- */
+#claimAll, #claimNone {
+    font-size: calc(var(--default-font-size) *.75);
+    width: 120px;
+    max-width: 50%;
+    padding: 8px;
+}
+#claim {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: fixed;
+    top: .5%;
+    left: .5%;
+    bottom: .5%;
+    right: .5%;
+    border: var(--biddingBorderWidthThick) solid var(--biddingBidsMadeDivBackground);
+    transform: scale(0);
+    border-radius: 2em;
+    z-index: 1000;
+    background-color: var(--color);
+    max-height: 87.5%;
+    max-width: 100%;
+    transition: all .66s cubic-bezier(1,0, 0, 0.8);
+    -webkit-transition: all .66s cubic-bezier(1,0, 0, 0.8);
+    -moz-transition: all .66s cubic-bezier(1,0, 0, 0.8);
+    overflow: hidden;
+    background: var(--backgroundColor);
+}
+#claim.active{
+    transform: scale(1);
+}
+#claim.isDeclarer{
+    width: 90%;
+    height: auto;
+    max-width: 300px !important;
+    max-height: 50% !important;
+    bottom: auto;
+    top: 50%;
+    left: 50% !important;
+    transform: translate(-50%, -50%) scale(1);
+}
+#claim.declarerClaimSomeResult {
+    max-width: 100%;
+    justify-content: flex-start;
+    max-height: 100%;
+}
+#claim.declarerClaimSomeResult #claimBodyTitle {
+    padding: .5em 1.5em .5em .75em;
+}
+#claim.claimAllDefense {
+    max-width: 50%;
+}
+#claimBody {
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: var(--backgroundColor);
+    overflow-y: scroll;
+}
+#claimBody.isDeclarer{
+    justify-content: flex-start !important;
+    overflow: hidden;
+}
+#usersReady{
+    width: 100%;
+}
+#usersReady>div:last-child {
+    padding-bottom: 10vmin;
+}
+#claimBody.isDeclarer * {
+    color: var(--color);
+    font-size: 4.1725vmin;
+}
+#claimBody.isClaimSome {
+    height: 60%;
+    max-height: 60%;
+    padding: .5em 0em 0 1em;
+}
+#claimBody.claimSomeDefense {
+    align-items: flex-start;
+    flex-direction: row;
+    justify-content: center;
+    height: 50%;
+    max-height: 50%;
+}
+#claimBody::-webkit-scrollbar {
+    height: 1.5em;
+    width: 1.5em;
+    background: var(--backgroundColor) !important;
+}
+#claimBody::-webkit-scrollbar-thumb {
+    background: var(--color) !important;
+    border-radius: 60px;
+    -webkit-border-radius: 60px;
+    -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.75);
+}
+#claimBody::-webkit-scrollbar-corner {
+    background: var(--color) !important;
+}
+#responseDiv {
+    padding: .5em 1em;
+}
+.shortHand {
+    justify-content: center !important;
+}
+#declarersHandDiv {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+.claimLeft{
+    left: 0 !important;
+    right: 66% !important;
+}
+.claimRight{
+    right: 0 !important;
+    left: 66% !important;
+}
+.cardsLeft {
+    height: 55vmin;
+    position: absolute;
+    left: 0%;
+    transform-origin: left;
+}
+.cardsRight {
+    height: 55vmin;
+    position: absolute;
+    right: 0%;
+    transform-origin: right;
+}
+.claimSomeLeft {
+    transform-origin: top;
+}
+.claimSomeRight {
+    transform-origin: bottom;
+}
+#claimHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .5rem 1rem .5rem;
+    border-bottom: 1px solid var(--backgroundColor);
+    background: var(--color);
+    width: 100%;
+    margin: 0;
+}
+#claimTitle {
+    font-size: 4.1725vmin;
+    font-weight: bold;
+    line-height: 1.1;
+    text-align: center;
+    width: 100%;
+    color: var(--backgroundColor);
+    background: var(--color);
+}
+#closeClaim, #undoClose {
+    padding-left: .5em;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 1.5em;
+    color: var(--backgroundColor);
+}
+#closeClaim:hover, #undoClose:hover {
+    color: var(--claimNoBackground);
+}
+#claimButtons {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, -0%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100000;
+    width: 100%;
+    max-width: 100%;
+}
+#claimButtons.claimSomeDefense {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100000;
+    width: 100%;
+    padding: 0;
+}
+#claimButtons.declarerClaimResponse  {
+    justify-content: center;
+    font-size: 2em;
+    /* height: 100%; */
+    position: absolute;
+}
+#claimBody.declarerClaimResponse {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+#allClaimedCards {
+    overflow: hidden;
+    position: relative;
+    height: 30%;
+}
+#allClaimedCards>h5 {
+    text-align: center;
+    font-size: 1.5em;
+    padding: .5em 1em .5em 1em;
+}
+#allClaimedCards>img {
+    height: 27.5vmin;
+}
+#partnersClaimedCards>img {
+    height: 55vmin;
+}
+#claimButtons.declarerClaimResponse button {
+    min-height: 17.5vmin;
+    font-size: 10vmin;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    height: 25%;
+    border-radius: 0 !important;
+    width: 100%;
+}
+#claimButtons * {
+    min-width: 33%;
+    font-size: 2em;
+    padding: .125em .5em;
+}
+#claimButtons.claimSomeDefense * {
+    height: 100%;
+}
+#claimButtons.claimSomeDefenseSummary * {
+    min-width: 50% !important;
+}
+#claimAmountButtons *, #undoPlayButton {
+    background-color: var(--playButtonBackground);
+}
+#claimAmountButtons *:hover, #undoPlayButton:hover {
+    background-color: var(--playButtonBackgroundHover);
+}
+#claimLabel {
+    font-weight: 700;
+    font-size: var(--playingButtonsFontSize);
+}
+#claim.claimPicking{
+    right: 0% !important;
+    left: 0% !important;
+    top: 0% !important;
+    bottom: 0% !important;
+    max-width: 100%;
+    max-height: 100%;
+}
+#claim.claimSome {
+    max-width: 100%;
+    /* right: 0%; */
+    max-height: 100%;
+    /* bottom: 0%; */
+}
+#claim.claimSomeDefense {
+    max-width: 100%;
+    right: 0%;
+    max-height: 100%;
+    bottom: 0%;
+    top: 0%;
+    left: 0%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+#claimBodyTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 1em;
+    width: 100%;
+    height: 75%;
+    max-width: 100%;
+    min-width: 100%;
+    color: var(--color);
+    background-color: var(--backgroundColor);
+}
+#claimBodyTitle > div > div:first-child  {
+    font-size: 3.42vmin;
+}
+#claimBodyTitle > div > div:nth-child(2n){
+    font-size: .75em;
+    font-style: italic;
+    font-weight: 400;
+}
+#claimBodyTitle.claimSomeDefenseSummary,  #allClaimedCardsTitle {
+    justify-content: center;
+    font-size: 3.42vmin;
+    padding: .5em 1.5em .25em .75em;
+    height: auto;
+    text-align: center;
+}
+#allClaimedCardsTitle {
+    text-align: center;
+    padding: .5em .5em .25em .5em;
+}
+#claim.claimSomeDefense #claimBodyTitle {
+    height: auto;
+}
+#claimBodyTopHand, #claimBodyBottomHand {
+    min-height: 10em;
+    width: 100%;
+    right: 0% !important;
+    left: 0% !important;
+    top: 0% !important;
+    bottom: 0% !important;
+    max-width: 100%;
+    max-height: 43%;
+    position: relative;
+    color: var(--color);
+    font-weight: 700;
+    text-align: center;
+    overflow: hidden;
+}
+#claimBodyTopDiv, #claimSomeClaimOrderDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: var(--claimSomeContentWidth);
+    max-width: 100%;
+}
+#claimBodyTopDiv img {
+    height: 30em;
+}
+#usersHand img {
+    height: 70vmin;
+}
+#claimBody.claimSomeDefense>#claimSomeClaimOrderDiv{
+    max-width: 50%;
+    margin-top: 0;
+}
+#claimBody.claimSomeDefense>div>div  {
+    margin-top: 0;
+}
+#claimSomeClaimOrderDiv {
+    max-width: 100%;
+}
+#claimSomeClaimOrder {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* display: flex;
+    flex-direction: row;
+    justify-content: center; */
+    width: 20em;
+    max-width: 97.5%;
+    margin: .25em auto;
+    /* height: 100%; */
+}
+#claimSomeClaimOrder .redSuitBidding, #claimSomeClaimOrder .blackSuitBidding  {
+    transform: scale(1);
+}
+#claimSomeClaimOrder>span {
+    border-left: var(--biddingBorderWidthThick) solid var(--color);
+    border-bottom: var(--biddingBorderWidthThick) solid var(--color);
+}
+#claimSomeClaimOrder>span:nth-of-type(-n+4) {
+    font-weight: bold; 
+    border-left: none;
+    border-right: none;
+    margin-top: .25em;
+}
+#claimSomeClaimOrder>span:nth-of-type(4n+8) {
+    border-right: var(--biddingBorderWidthThick) solid var(--color);
+}
+#claimSomeClaimOrder * {
+    width: auto;
+    color: var(--color) !important;
+    font-size: 4.1725vmin;
+}
+#usersHandDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    background: var(--backgroundColor);
+    color:var(--color);
+    width: 100%;
+    height: 50%;
+    min-height: 25%;
+    max-height: 36%;
+    overflow: hidden;
+}
+#endInDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+    text-align: center;
+    color: var(--color);
+}
+#selectEndInDiv {
+    background: var(--redSuit);
+    color: var(--backgroundColor);
+    text-align: center;
+}
+#selectEndInDiv.choiceMade {
+    background: var(--greenCheck);
+    color: var(--backgroundColor);
+}
+#claimSomeClaimOrderDiv {
+    margin-bottom: 20vmin;
+    font-size: 3.75vmin;
+    font-weight: 750;
+}
+#claimBody>div>div, #claimSomeClaimOrderDiv {
+    text-align: center;
+    margin-top: .5rem;
+}
+#claimSomeClaimOrder {
+    text-align: center;
+    margin-top: 0 !important;
+    font-weight: 500;
+}
+#claimingHandDiv, #otherHandDiv, #endInDiv label{
+    padding: 0px .5em;
+}
+#claimingHandDiv, #otherHandDiv, #endInDiv *{
+    font-size: 4.1725vmin;
+    text-align: center;
+}
+#claimSomeClaimOrder * {
+    font-size: 3.12vmin;
+    padding: .0625em;
+}
+.picked {
+    filter: brightness(1) invert(1);
+    pointer-events: fill !important;
+}
+#deselectDiv {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+#deselectDiv>input {
+    margin-right: .25em;
+}
+#declarersHandDiv.claimPicking {
+    height: 100%;
+}
+.staticPosition {
+    position: static !important;
+}
+#claimBodyLeftHand, #claimBodyRightHand {
+    height: 100%;
+    width: 100%;
+    right: 0% !important;
+    left: 0% !important;
+    top: 0% !important;
+    bottom: 0% !important;
+    max-width: 100%;
+    max-height: 100%;
+    position: relative;
+    color: #fff;
+    font-weight: 700;
+    text-align: center;
+    overflow: hidden;
+}
+#claimBodyLeftDiv, #claimBodyRightDiv {
+    text-align: left;
+    font-size: 1.5em;
+    padding-bottom: .25em;
+}
+#claimBodyRightDiv {
+    text-align: right;
+}
+#usersHandLabel{
+    text-align: center;
+    font-size: .5em !important;
+}
+#usersHandLabel * {
+    font-size: 1em !important;
+}
+#currentCardToSelect {
+    padding: 0 .5em .5em;
+    text-align: center;
+    font-size: 4.1725vmin;
+}
+#currentCardToSelect * {
+    background: var(--backgroundColor) !important;
+    color: var(--color) !important;
+}
+#declarersHandDivLeft, #declarersHandDivRight {
+    position: relative;
+    overflow: hidden;
+}
+#overlay {
+    background-color: rgba(0, 0, 0, .925);
+    position: fixed;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    transition: all .2s ease-in-out;
+    -webkit-transition: all .2s ease-in-out;
+    -moz-transition: all .2s ease-in-out;
+}
+#overlay.active {
+    pointer-events: all;
+    opacity: 1;
+    z-index: 1000;
+}
+#overlay.claimAll {
+    background-color: rgba(0, 0, 0, .36);
+}
+#leftUserReadyStatus, #rightUserReadyStatus, #playerThreeStatus {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 2.08vmin 4.1725vmin;
+    align-items: flex-end;
+    font-size: calc(var(--default-font-size) * .75);
+    color: #fff;
+}
+#leftPlayerDecision, #rightPlayerDecision {
+    backface-visibility: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.dotOne {
+    backface-visibility: hidden;
+    -webkit-animation: dots 1s 0s infinite linear normal none;
+    -moz-animation: dots 1s 0s infinite linear normal none;
+    -ms-animation: dots 1s 0s infinite linear normal none;
+    -o-animation: dots 1s 0s infinite linear normal none;
+    animation: dots 1s 0s infinite linear normal none;
+    font-size: calc(var(--default-font-size) * .75);
+}
+.dotTwo {
+    backface-visibility: hidden;
+    -webkit-animation: dots 1s .333333s infinite linear normal none;
+    -moz-animation: dots 1s .333333s infinite linear normal none;
+    -ms-animation: dots 1s .333333s infinite linear normal none;
+    -o-animation: dots 1s .333333s infinite linear normal none;
+    animation: dots 1s .333333s infinite linear normal none;   
+    font-size: calc(var(--default-font-size) * .75);
+}
+.dotThree {
+    backface-visibility: hidden;
+    -webkit-animation: dots 1s .6666666s infinite linear normal none;
+    -moz-animation: dots 1s .6666666s infinite linear normal none;
+    -ms-animation: dots 1s .6666666s infinite linear normal none;
+    -o-animation: dots 1s .6666666s infinite linear normal none;
+    animation: dots 1s .6666666s infinite linear normal none;
+    font-size: calc(var(--default-font-size) * .75);
+}
+@keyframes dots { 
+    0% { 
+        transform: scale(1.25); 
+        opacity: 1;
+    }
+    50% {
+        transform: scale(0); 
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1.25); 
+        opacity: 1;
+    }
+}
+#cancelClaimButton {
+    background: var(--backgroundColor);
+    color: var(--color);
+    width: 100%;
+    border-radius: 0px !important;
+    position: absolute;
+    bottom: 0;
+}
+#cancelClaimButton:hover {
+    color: var(--backgroundColor);
+    background: var(--color);
+}
+/* ------------------------------------------------------------------------------------------------- */
+/* Bidding Table ------------------------------------------------------------------------------------------------- */
+#biddingDiv {
+    width: 98%;
+    max-width: 502.5px;
+    margin: 0 auto;
+    min-height: calc(var(--default-font-size) * 1.75);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    font-size: 1em;
+    border-top: var(--biddingBorderWidthThin) solid var(--color);
+    border-bottom: var(--biddingBorderWidthThin) solid var(--color);
+    border-left: var(--biddingBorderWidthThick) solid var(--color);
+    border-right: var(--biddingBorderWidthThick) solid var(--color);
+    padding: 0;
+    background: var(--biddingBidsMadeDivBackground);
+}
+.biddingDivSummary {
+    font-size: 1.5em;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: 100%;
+    max-width: 100%;
+    border-top: var(--biddingBorderWidthThin) solid var(--dealSummaryTableBorder);
+    border-bottom: var(--biddingBorderWidthThin) solid var(--dealSummaryTableBorder);
+    border-left: var(--biddingBorderWidthThick) solid var(--dealSummaryTableBorder);
+    border-right: var(--biddingBorderWidthThick) solid var(--dealSummaryTableBorder);
+    background: var(--dealSummaryHandsBackground);
+}
+ #biddingDiv span:nth-child(n+5) {
+    background: var(--biddingBidsMadeDivBackground);
+    color: var(--biddingBidsMadeDivColor);
+    font-weight: 450;
+ }
+ .biddingDivSummary span:nth-child(n+5) {
+    font-weight: 450;
+    background: var(--dealSummaryHandsBackground);
+    color: var(--dealSummaryHandsBlack);
+}
+#biddingDiv>span:nth-child(4n+4), .biddingDivSummary>span:nth-child(4n+4) {
+    border-right: none !important;
+}
+#biddingDiv>span:last-child, .biddingDivSummary>span:last-child {
+    padding-right: 0;
+    margin-right: 0;
+    border-right: var(--biddingBorderWidthThinnest) solid var(--dealSummaryTableBorder);
+} 
+.noBorderBottom {
+    border-bottom: none !important;
+}
+.bidsMade {
+    padding: 2px;
+    font-size: 18px;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+}
+.biddingTableItem {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .2em;
+    font-weight: 375;
+    border-right: var(--biddingBorderWidthThinnest) solid var(--dealSummaryTableBorder);
+    border-bottom: var(--biddingBorderWidthThinnest) solid var(--dealSummaryTableBorder);
+    max-width: 126px;
+    overflow: hidden;
+}
+.biddingHeader{
+    border-bottom: var(--biddingBorderWidthThinnest) solid var(--color);
+    font-weight: 500;
+    background: var(--backgroundColor);
+    color: var(--color);
+}
+.biddingDivSummary .biddingHeader {
+    border-bottom: var(--biddingBorderWidthThinnest) solid var(--dealSummaryHandsBlack);
+    /* background: var(--dealSummaryTable);
+    color: var(--dealSummaryHandsBlack); */
+}
+/* .biddingDivSummary .biddingHeader:not(:last-child) {
+    border-right: var(--biddingBorderWidthThinnest) solid var(--color);
+} */
+.biddingDivSummary .biddingTableItem {
+    max-width: 100%;
+}
+.doublePassBid {
+    font-size: 32px;
+}
+.handDivTable span:nth-child(3) span:nth-child(n + 2) {
+    margin-left: 1em;
+}
+.handDiv span:nth-child(2) span:nth-child(n + 2) {
+    margin-left: 1em;
+}
+
+/* ------------------------------------------------------------------------------------------------- */
+/* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+
+/* Deal Info Modal------------------------------------------------------------------------------------------------- */
+#gameInfoButton:active, #gameInfoButton:focus, #dealInfoButton:active, #dealInfoButton:focus {
+    outline: 0;
+    border: none;
+    -moz-outline-style: none;
+    outline-style: none;
+}
+#dealInfoButton {
+    position: fixed;
+    width: 50vh;
+    transform: rotate(-90deg) translate(-4%, 50%);
+    bottom: 0;
+    left: 0;
+    transform-origin: left;
+    z-index: 100;
+    font-size: 1em;
+    padding: .25em;
+    border-radius: 0 !important;
+    text-align: left;
+    background: transparent;
+    color: var(--biddingButtonBackground);
+}
+#dealInfoButton.exposedBottom {
+    top: 45.3%;
+    bottom: auto;
+    width: 50vh;
+    text-align: right;
+    transform: rotate(-90deg) translate(-5.2%, 50%);
+}
+#gameInfoButton.exposedBottom {
+    top: 45.3%;
+    bottom: auto;
+    text-align: left;
+    width: 50vh;
+    transform: rotate(90deg) translate(5.5%, 50%);
+}
+#dealInfoButton.top {
+    width: 40vw;
+    transform: rotate(0);
+    top: 0;
+    right: 0;
+    left: auto;
+    bottom: auto;
+    text-align: right;
+}
+#dealInfoButton.top:hover {
+    transform: rotate(0) translate(-11%, 0px) scale(1.1);
+}
+#dealInformationDiv {
+    position: absolute;
+    top: 39.2%;
+    left: 0%;
+    width: auto;
+    min-width: var(--infoMinWidth);
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 0;
+    z-index: 101;
+    border-radius: 1em;
+    opacity: .98;
+    overflow: hidden;
+    border: var(--infoBorderWidth) solid var(--color);
+    background: var(--backgroundColor);
+    color: var(--color);
+    /* border-right: var(--infoBorderWidth) solid var(--color);
+    border-top: var(--infoBorderWidth) solid var(--color);
+    border-bottom: var(--infoBorderWidth) solid var(--color); */
+}
+#dealInformationDivHeader {
+    padding: .2em 0 0 0;
+    cursor: move;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: var(--backgroundColor);
+    color: white;
+}
+#dealInformationDivHeader *{
+    color: white;
+}
+#dealInformationDiv.top {
+    left: 71%;
+    right: 0;
+}
+#dealInformationDiv.exposedBottom, #gameInfoDiv.exposedBottom {
+    top: 17.8%;
+    bottom: auto;
+}
+#dealInformationDiv.leftZero {
+    left: 0;
+}
+#dealInformationDiv.topZero {
+    top: 0;
+}
+#dealInformationDiv *, #gameInfoDiv *{
+    font-size: var(--modalInfoFullFontSize);
+    line-height: 1;
+    font-weight: 700;
+    color: var(--color);
+}
+#dealInformationDivHeader>div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 .5em;
+}
+#closeDealInfo {
+    width: 100%;
+    padding: .25em 0;
+    /* margin-top: .25em; */
+}
+#closeDealInfo {
+    width: 100%;
+    background: var(--playAreaFillColor);
+    color: var(--closeButton);
+    border-radius: 0 !important;
+    line-height: 1;
+    padding: 0;
+}
+#dealInfoSizeUp, #dealInfoSizeDown  {
+    color: var(--backgroundColor);
+    background-color: var(--color);
+
+    width: 100%;
+    border-radius: 1em;
+    outline: none;
+}
+#dealInfoSizeUp {
+    margin-left: .33em;
+}
+#dealInfoSizeDown {
+    margin-right: .33em;
+}
+#dealInfoSizeDown:hover, #dealInfoSizeUp:hover  {
+    background-color: #fff;
+    color: #000;
+}
+#dealInfoButton:hover {
+    border-radius: 0 !important ;
+    transform: rotate(-90deg) translate(-4%, 50%) scale(1.1);
+}
+#dealInfoButton.exposedBottom:hover {
+    transform: rotate(-90deg) translate(-16%, 50%) scale(1.1);
+}
+#closeDealInfo:hover{
+    color: var(--closeButtonHover);
+}
+#contract, #vulnerable, #tricksLeft, #tricksNeeded, #firstPlayerCardPlayed, #secondPlayerCardPlayed, #thirdPlayerCardPlayed, #fourthPlayerCardPlayed {
+    margin-left: .5em;
+}
+.bold {
+    font-weight: 850;
+    color: var(--greenCheck) !important;
+}
+.isSet {
+    backface-visibility: hidden;
+    color: var(--hasBeenSet) !important;
+    font-weight: 1000 !important;
+    -webkit-animation: isSetAnimation 6s 0s infinite linear alternate-reverse both !important;
+    -moz-animation: isSetAnimation 6s 0s infinite linear alternate-reverse both !important;
+    -ms-animation: isSetAnimation 6s 0s infinite linear alternate-reverse both !important;
+    -o-animation: isSetAnimation 6s 0s infinite linear alternate-reverse both !important;
+    animation: isSetAnimation 6s 0s infinite linear alternate-reverse both !important;
+}
+    
+.hasMadeBid {
+    backface-visibility: hidden;
+    color: var(--hasMadeBid) !important;
+    font-weight: 1000 !important;
+    -webkit-animation: madeBidAnimation 10s 0s 3 cubic-bezier(0.4, 0, 0.2, 1) normal none;
+    -moz-animation: madeBidAnimation 10s 0s 3 cubic-bezier(0.4, 0, 0.2, 1) normal none;
+    -ms-animation: madeBidAnimation 10s 0s 3 cubic-bezier(0.4, 0, 0.2, 1) normal none;
+    -o-animation: madeBidAnimation 10s 0s 3 cubic-bezier(0.4, 0, 0.2, 1) normal none;
+    animation: madeBidAnimation 10s 0s 3 cubic-bezier(0.4, 0, 0.2, 1) normal none;
+}
+@keyframes madeBidAnimation {
+    0%{
+        transform: rotate(-360deg);
+    }
+    /* 2.5%{
+        transform: rotate(-270deg);
+    }
+    5%{
+        transform: rotate(-180deg);
+    }
+    7.5%{
+        transform: rotate(-15deg);
+    } */
+    4% {
+        transform: rotate(0deg);
+
+    }
+}
+@keyframes isSetAnimation { 
+    0% { 
+        transform: rotate(.25deg);
+    }
+    5% { 
+        transform: rotate(-.25deg);
+    }
+    10% { 
+        transform: rotate(.5deg);
+    }
+    15% { 
+        transform: rotate(-.5deg);
+    }
+    20% { 
+        transform: rotate(.75deg);
+    }
+    25% { 
+        transform: rotate(-.75deg);
+    }
+    30% { 
+        transform: rotate(1deg);
+    }
+    35% { 
+        transform: rotate(-1deg);
+    }
+    40% { 
+        transform: rotate(1.25deg);
+    }
+    45% { 
+        transform: rotate(-1.25deg);
+    }
+    50% { 
+        transform: rotate(1.5deg) translate(1%, 0);
+    }
+    55% { 
+        transform: rotate(-1.5deg);
+    }
+    60% { 
+        transform: rotate(1.75deg);
+    }
+    65% { 
+        transform: rotate(-1.75deg);
+    }
+    70% { 
+        transform: rotate(2deg);
+    }
+    75% { 
+        transform: rotate(-2deg) translate(-1%, 0);
+    }
+    80% { 
+        transform: rotate(0deg);
+    }
+}
+#lastTrickDiv {
+    width: 100% !important;
+    text-align: center;
+    border-top: 2px dotted var(--color);
+}
+#lastTrickDiv * {
+    text-decoration: underline;
+    padding: .25em 0;
+}
+#lastTricksGrid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: repeat(4, 1fr);
+    text-align: end;
+}
+#fourthPlayerDiv {
+    width: 100% !important;
+    text-align: end;
+}
+#dealInfoButtons { 
+    display: flex;
+    justify-content: space-evenly;
+    /* align-items: center; */
+    width: 100%;
+    padding: 0;
+}
+#dealInformationDivHeader>div:last-child {
+    padding-bottom: .25em !important;
+}
+#youCanLoseCount {
+    margin-left: 1rem;
+}
+/* ------------------------------------------------------------------------------------------------- */
+/* Game Info Modal------------------------------------------------------------------------------------------------- */
+#gameInfoButton {
+    position: fixed;
+    width: 50vh;
+    transform: rotate(90deg) translate(4.2%, 50%);
+    bottom: 0;
+    right: 0;
+    transform-origin: right;
+    z-index: 100;
+    font-size: 1em;
+    padding: .25em;
+    border-radius: 0 !important;
+    background: transparent;
+    color: var(--biddingButtonBackground);
+    outline: none;
+    border: none;
+    text-align: right;
+}
+#gameInfoButton.top {
+    width: 62vw;
+    transform: rotate(0);
+    top: 0;
+    left: 0;
+    bottom: auto;
+    text-align: left;
+}
+#gameInfoDiv {
+    width: auto;
+    min-width: var(--infoMinWidth);
+    height: auto;
+    position: absolute;
+    top: 62.5%;
+    display: flex;
+    padding: 0;
+    z-index: 100;
+    border-radius: 1em;
+    opacity: .98;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border: var(--infoBorderWidth) solid var(--color);
+    background: var(--backgroundColor);
+    color: var(--backgroundColor);
+    cursor: move;
+}
+#gameInfoDivHeader {
+    width: 100%;
+}
+.onFire {
+    -webkit-box-shadow: #FFF 0 -1px 4px, #ff0 0 -2px 10px, #ff8000 0 -10px 20px, red 0 -18px 40px, -50px -38px 0px -30px rgba(0,0,0,0); 
+    box-shadow: #FFF 0 -1px 4px, #ff0 0 -2px 10px, #ff8000 0 -10px 20px, red 0 -18px 40px, -50px -38px 0px -30px rgba(0,0,0,0);
+}
+#gameInfoDiv.top {
+    left: 0;
+    /* right: 80%; */
+    bottom: auto;
+}
+#gameInfoDiv.top .scoringTableDiv {
+    width: 100%;
+}
+#gameInfoDiv.leftZero {
+    right: 0;
+}
+#gameInfoDiv.topZero {
+    top: 0;
+}
+#gameInfoButton:hover {
+    transform: rotate(90deg) translate(4.8%, 40%) scale(1.1);
+}
+#gameInfoButton.top:hover {
+    transform: rotate(0deg) translate(10.1%, 0%) scale(1.1);
+}
+#gameInfoButton.exposedBottom:hover {
+    transform: rotate(90deg) translate(15.8%, 40%) scale(1.1);
+}
+.borderTop {
+    border-top: 1px solid var(--color);
+}
+.scoringTableDiv {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    min-width: 6em;
+}
+.scoringTableDiv>h5:first-child {
+    border-right: 1px solid var(--color);
+}
+.scoringTableDiv>h5 {
+    width: 100%;
+    text-align: center;
+    font-size: var(--modalInfoMobileFontSize);
+}
+#closeGameInfo {
+    width: 100%;
+    background: var(--playAreaFillColor);
+    color: var(--closeButton);
+    border-radius: 0 !important;
+    padding: 0;
+    border-top: 2px dashed var(--color);
+    line-height: 1;
+}
+#closeGameInfo:hover {
+    color: var(--closeButtonHover);
+}
+.transitionInfoModals {
+    transition: box-shadow .1s ease;
+    -webkit-transition: box-shadow .1s ease;
+    -moz-transition: box-shadow .1s ease;
+    -o-transition: box-shadow .1s ease;
+}
+#undoAndThemeDiv {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+#colorTheme {
+    color: var(--color);
+    background: var(--backgroundColor);
+    width: 100%;
+    text-align-last: center;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    outline: none;
+    border-top: 2px dotted var(--color);
+}
+#colorThemeBidding {
+    color: var(--color);
+    background: var(--backgroundColor);
+    width: 100%;
+    text-align-last: center;
+    outline: none;
+    border: none;
+    border-radius: 2em;
+}
+/* ------------------------------------------------------------------------------------------------- */
+/* FontSize Slider------------------------------------------------------------------------------------------------- */
+#fontSizeSliderDiv {
+    width: 100%;
+    padding: .1em .5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 2px dashed var(--color);
+}
+#fontSizeSlider::-webkit-slider-runnable-track {
+    background: var(--color);
+}
+#fontSizeSlider::-moz-range-track {
+    background: var(--color);
+}
+#fontSizeSlider::-ms-track {
+    background: var(--color);
+}
+/* ------------------------------------------------------------------------------------------------- */
+/* Volume Slider------------------------------------------------------------------------------------------------- */
+#volumeAndUndoDiv {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background: var(--backgroundColor);
+    padding: .25em 0;
+    text-align: center;
+    border-top: var(--biddingBorderWidthThick) solid var(--color);
+    border-bottom: var(--biddingBorderWidthThick) solid var(--color);
+}
+#volumeAndUndoDiv *, #playingButtons * {
+    color: var(--color);
+}
+#volumeSliderDiv {
+    width: 50%;
+}
+
+  #volumeSliderDiv>label{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-size: var(--playingButtonsFontSize);
+  }
+  input[type=range] {
+    width: 100%;
+    margin: 8.9px 0;
+    background-color: transparent;
+    -webkit-appearance: none;
+  }
+  input[type=range]:focus {
+    outline: none;
+  }
+  input[type=range]::-webkit-slider-runnable-track {
+    background: var(--sliderBackgroundColor);
+    border: 0.2px solid var(--color);
+    border-radius: 1.3px;
+    width: 100%;
+    height: 8.4px;
+    cursor: pointer;
+    transition: all .5s ease;
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    -o-transition: all .5s ease;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    margin-top: -8.9px;
+    width: 16px;
+    height: 24px;
+    background: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 3px;
+    cursor: pointer;
+    -webkit-appearance: none;
+     transition: all .001s ease;
+    -webkit-transition: all .001s ease;
+    -moz-transition: all .001s ease;
+    -o-transition: all .001s ease;
+  }
+  input[type=range]::-moz-range-track {
+    background: #3071a928;
+    border: 0.2px solid #010101;
+    border-radius: 1.3px;
+    width: 100%;
+    height: 8.4px;
+    cursor: pointer;
+    transition: all .001s ease;
+    -webkit-transition: all .001s ease;
+    -moz-transition: all .001s ease;
+    -o-transition: all .001s ease;
+  }
+  input[type=range]::-moz-range-thumb {
+    width: 16px;
+    height: 25px;
+    background: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  input[type=range]::-ms-track {
+    background: transparent;
+    border-color: transparent;
+    border-width: 9.3px 0;
+    color: transparent;
+    width: 100%;
+    height: 8.4px;
+    cursor: pointer;
+  }
+  input[type=range]::-ms-fill-lower {
+    background: #2a6495;
+    border: 0.2px solid #010101;
+    border-radius: 2.6px;
+  }
+  input[type=range]::-ms-fill-upper {
+    background: #3071a928;
+    border: 0.2px solid #010101;
+    border-radius: 2.6px;
+  }
+  input[type=range]::-ms-thumb {
+    width: 16px;
+    height: 25px;
+    background: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-top: 0px;
+    /*Needed to keep the Edge thumb centred*/
+  }
+/* ------------------------------------------------------------------------------------------------- */
+/* Stats sideBar------------------------------------------------------------------------------------------- */
+#sidebar {
+    position: absolute;
+    right: 0;
+    width: auto;
+    bottom: 0;
+    min-height: 1.75em;
+    min-width: 1.75em;
+    background: var(--biddingGradientStart);
+    opacity: .5;
+    display: grid;
+    place-content: center;
+    font-size: 1.75rem;
+    border-radius: 1em 1em 0 1em;
+    transform: scale(0);
+}
+#sidebar.showSidebar {
+    transform: scale(1);
+}
+#sidebar:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+#sidebarFull {
+    overflow: hidden;
+    position: absolute;
+    right: 0%;
+    bottom: 0;
+    background: var(--biddingBidsDivBackground);
+    border-top: var(--biddingBorderWidthThick) solid var(--color);
+    border-left: var(--biddingBorderWidthThick) solid var(--color);
+    border-radius: 0;
+    width: 100%;
+    z-index: 10000;
+    transform: scale(0);
+}
+#sidebarFull.showSidebar {
+    right: 0;
+    transform: scale(1);
+}
+#sidebarFull * {
+    line-height: 1.1;
+    color: var(--biddingBidsMadeDivColor);
+}
+#sidebarFull h5 {
+    padding: 0 1em;
+    font-size: 1.25em;
+}
+#sidebarBody>div>h5:nth-child(1) {
+    font-size: 1.66em;
+    font-weight: 700;
+}
+#sidebarBody div:nth-child(n+1) {
+    border-bottom: var(--biddingBorderWidthThin) dashed var(--color);
+    width: 100%;
+    padding: .75em 0;
+}
+#dealPointsDiv div:nth-last-child(n+ 1) {
+    border-bottom: none;
+    padding: .75em 0 0 0;
+}
+#sidebarBody div:last-child {
+    border-bottom: none;
+}
+
+#sidebarHeader, #sidebarBody, #handPointsDiv, #dealPointsDiv, #gamePointsDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    text-align: center;
+}
+#sidebarHeader {
+    background: var(--biddingUndoColor);
+    flex-direction: row;
+    border-bottom: var(--biddingBorderWidthThick) solid var(--color);
+    padding: .75em;
+}
+#sidebarHeader * {
+    font-size: 2.5em !important;
+    font-weight: 700;
+}
+#sidebarHeader h5 {
+    font-size: .33em !important;
+    font-weight: 500;
+}
+#closeSidebar {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(-50%, -50%);
+    width: auto;
+}
+#closeSidebar:hover {
+    cursor: pointer;
+}
+#handPointsDiv h5:nth-child(2)>span:nth-last-child(n + 2) {
+    margin-right: .75em;
+}
+#dealPointsDiv>div>h5:nth-child(1), #handPointsDiv>div>h5:nth-child(1) {
+    font-size: 1.25em;
+    font-style: italic;
+}
+#handPointsDiv div {
+    border-bottom: none !important;
+    padding-bottom: 0 !important;
+}
+/* #sidebarBody>div>h5:nth-child(2) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+} */
+/* ------------------------------------------------------------------------------------------------- */
+@media (max-width: 991px) {
+    #resultSentence {
+        font-size: calc(var(--default-font-size) * .66);
+    }
+    #finalScoreSummary h4 {
+        font-size: calc(var(--default-font-size) * .75 * 1.25);
+    }
+    .handDiv {
+        font-size: 0;
+    }
+}
+@media (max-width: 767px) {
+    #undoButton {
+        font-size: 4.1725vmin;
+    }
+    #claimBody.undoRequestResponse>button {
+        font-size: 15vmin;
+    }
+    #claimHeader {
+        padding: 8px 12px;
+    }
+    #claimBodyTitle{
+        padding: 4px 16px 0px 16px;
+    }
+    #claimBodyTitle > div > div:nth-child(2n){
+        font-size: 2.4vw;
+    }
+    /* #claimTitle, #closeClaim, #claimTitle.undoRequestResponse {
+        font-size: 1.2em;
+    } */
+    /* #claimBodyLeftDiv, #claimBodyRightDiv, #usersHandLabel {
+        font-size: 4vmin;
+    } */
+    .handDiv *, .table *, #handsDiv h5, .dealSummaryInfo h5, #dealSummaryBottom *, .dealSummaryHonors *, #finalScoreSummary * {
+        font-size: calc(var(--default-font-size) * .66);
+    }
+    #resultSentence {
+        font-size: calc(var(--default-font-size) * .5);
+    }
+    #finalScoreSummary h4 {
+        font-size: calc(var(--default-font-size) * .66 * 1.25);
+    }
+    #seatButtons h3 {
+        font-size: 1rem;
+    }
+    #seatButtons h5 {
+        font-size: .66rem;
+    }
+    .textboxes {
+        width: 100%;
+    }
+
+    /* Start of Deal/Game Table Summary Stuff */
+    .clubIconTableRow {
+        width: .74rem;
+    }
+    .diamondIconTableRow {
+        width: .66rem;
+    }
+    .heartIconTableRow {
+        width: .75rem;
+    }
+    .spadeIconTableRow {
+        width: .62rem;
+    }
+    .divider {
+        width: 540px;
+    }
+    #claimAll, #claimNone {
+        font-size: calc(var(--default-font-size) *.66);
+        width: 100px;
+        max-width: 50%;
+        padding: 4px;
+    }
+    #claimAmountButtons *, #undoPlayButton {
+        font-size: 4.5vw;
+        padding: 4px 0;
+    }
+    #claimLabel, #volumeSliderDiv>label {
+        font-size: 4vw;
+    }
+    
+ }
+@media (max-width: 576px) {
+    /* Start of Deal/Game Table Summary Stuff */
+    .handDiv {
+        font-size: 0;
+    }
+    .handDiv *, .table *, #handsDiv h5, .dealSummaryInfo h5, #dealSummaryBottom *, .dealSummaryHonors *, .tableBorders {
+        font-size: calc(var(--mobile-font-size-16px) * 1);
+    }
+    #resultSentence {
+        font-size: calc(var(--mobile-font-size-16px) * .75);
+    }
+    #finalScoreSummary h4 {
+        font-size: calc(var(--mobile-font-size-16px) * 1.25);
+    }
+    .dealSummary{
+        width: 100%;
+        padding: 6px 8px 16px 8px !important;
+    }
+    #finalScoreSummary{
+        width: 100%;
+        padding: 1em 0 2.8em 0 !important;
+    }
+    .divider {
+        margin: 4px 0;
+        width: 100%;
+    }
+    .dealSummaryTable {
+        padding-bottom: 8px;
+    }
+    #readyToContinueTable {
+        width: 100%;
+        /* padding: 16px 0px 0px 0px !important; */
+    }
+    #handsDiv h5 {
+        margin: 4px 0px 0px 0px;
+    }
+    .table td, table th {
+        padding: .9vw !important;
+        vertical-align: middle !important;
+    }
+    .dealSummaryInfo{
+        margin: 0 auto;
+    }
+    #dealSummaryBottom .dealSummaryBottomRight {
+        width: 100%;
+        margin: 0 auto;
+    }
+    .dealSummaryPointsContractPoints, .dealSummaryPointsOverTrickPoints, .dealSummaryPointsUnderTrickPoints {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .dealSummaryPointsContractPointsTotal, .dealSummaryPointsOverTrickPointsTotal, .dealSummaryPointsUnderTrickPointsTotal, .dealSummaryTricksWonTotal, .dealSummaryTricksNeededTotal {
+        margin-left: 4px !important;
+    }
+    #dealSummaryButtons, .dealSummary, #readyToContinueTable{
+        width: 100%;
+    }
+    .clubIconSmall {
+        width: 2.17vw;
+    }
+    .diamondIconSmall {
+        width: 2.17vw;
+    }
+    .heartIconSmall {
+        width: 2.17vw;
+    }
+    .spadeIconSmall {
+        width: 2.15vw;
+    }
+    .clubIconTableRow {
+        width: 2.4vw;
+        margin-left: .15vw;
+    }
+    .diamondIconTableRow {
+        width: 1.78vw;
+        width: 2.02vw;
+        margin-left: .15vw;
+    }
+    .heartIconTableRow {
+        width: 2.06vw;
+        width: 2.26vw;
+        margin-left: .17vw;
+    }
+    .spadeIconTableRow {
+        width: 2.14vw;
+        margin-left: .15vw;
+    }
+    #resultSentence {
+        margin: 12px 0px -8px 0px;
+    }
+    /* End of Deal/Game Table Summary Stuff */
+    #undoPlayButtonDiv {
+        padding: .36vmin;
+    }
+}
+@media (max-width: 540px) {
+    #headerContainer {
+        margin-top: 2px !important;
+    }
+    #resetButton, #doubleButton {
+        margin-left: 2px;
+        width: 99.5% !important;
+    }
+    #makeBidButton, #resetButton {
+        margin-top: 2px;
+    }
+    #doubleButton, #passButton {
+        margin-bottom: 2px;
+    }
+    #makeBidButton, #passButton {
+        margin-right: 2px;
+        width: 99.5% !important;
+    }
+    #topIsDealer, #bottomIsDealer, #rightIsDealer, #leftIsDealer {
+        font-size: 1.66vw;
+        height:100%;
+    }
+    #leftBids, #rightBids,#topBids,#bottomBids {
+        padding-bottom: 2px;
+    }
+    #thinkingDivTop, #thinkingDivBottom, #thinkingDivLeft, #thinkingDivRight {
+        min-height: 16px;
+    }
+    #thinkingSuits {
+        font-size: 4vw;
+    }
+    /* , #heartThinking, #diamondThinking, #clubThinking */
+    #spadeThinking { 
+        /* height: 2vw; */
+        /* width: 2.1vw; */
+    }
+    #heartThinking { 
+        /* height: 2vw; */
+        /* width: 2.3vw; */
+    }
+    #clubThinking { 
+        /* height: 2vw; */
+        /* width: 2vw; */
+    }
+    #diamondThinking { 
+        /* height: 2vw; */
+        /* width: 4.08vw; */
+    }
+    #flashMsg .alert {
+        padding: 2px !important;
+        width: 100%;
+        margin-bottom: 2px;
+    }
+    #flashMsg h3 {
+        font-size: 6vw !important;
+    }
+    #flashMsg{
+        /* padding-left: 4px !important;
+        padding-right: 4px !important; */
+    }
+    #pointRow {
+        padding-left: .25rem !important;
+    }
+    #bidContainer button {
+        font-size: 4.5vw;
+        vertical-align: middle;
+        padding: 0;
+    }
+    #rowContainer {
+        height: 75vw;
+        min-height: 381px;
+        margin: 0 auto;
+        width: 98%;
+        max-width: 502.5px;
+    }
+    #bidContainer{
+        padding-top: 0px;
+    }
+    #bidContainer h3 {
+        font-size: 4vw; 
+    }
+    #bidsContainerLeft {
+        align-items: flex-start;
+    }
+    #bidsContainerRight {
+        align-items: flex-end;
+    }
+    /* #cardsDiv {
+        height: 89px;
+    } */
+    .container-fluid {
+        margin: 0px;
+        padding: 0px 8px;
+    }
+    .container {
+        width: 100%;
+        /* padding: 0 !important; */
+        margin: 0;
+    }
+    
+    #currentBidder {
+        font-size: 4.5vw;
+    }
+    #lastBid {
+        font-size: 2.5vw;
+    }
+    #pointsDiv h6, #ownPointsDiv h6, #opponentPointsDiv h6 {
+        font-size: 3vw;
+        margin-bottom: 2px;
+    }
+    .smallFont {
+        font-size: 2.66vw;
+    }
+    .clubIcon {
+        width: 3.24vw;
+        margin-left: .2vw;
+    }
+    .diamondIcon {
+        width: 3vw;
+        margin-left: .2vw;
+    }
+    .heartIcon {
+        width: 3.5vw;
+        margin-left: .3vw;
+    }
+    .spadeIcon{
+        width: 3vw;
+        margin-left: .2vw;
+    }
+    .clubIconSmall {
+        width: 2.6vw;
+        margin-left: 0;
+    }
+    .diamondIconSmall {
+        width: 2.35vw;
+        margin-left: 0;
+    }
+    .heartIconSmall {
+        width: 2.52vw;
+        margin-left: 0;
+    }
+    .spadeIconSmall {
+        width: 2.3vw;
+        margin-left: .15vw;
+    }
+    .navbar {
+        padding: .5rem 4px;
+    }
+    .cards{
+        height: 49.5vw;
+    }
+    .bidBorder{
+        margin: 4px 0;
+    }
+    body, #handsDiv h5 {
+        font-size: 2.75vmin;
+    }
+    .clubIconLoading, .diamondIconLoading, .heartIconLoading, .spadeIconLoading {
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%) scale(.5);
+        height: auto !important;
+    }
+    .clubIconLoading {
+        left: 0%;
+    }
+    .diamondIconLoading {
+        left: 33%;
+    }
+    .heartIconLoading {
+        left: 66%;
+    }
+    .spadeIconLoading {
+        left: 100%;
+    }
+}
+@media (max-width: 500px) {
+    .doublePassBid {
+        font-size: 6.4vw !important;
+    }
+    #rowContainer{
+        width: 98%;
+        border-radius: 16px 16px 0 0;
+    }
+    .pointRow {
+        padding: 0 10px;
+    }
+    #biddingDiv, #bidContainer {
+        width: 98%;
+    }
+    #bidContainer {
+        /* border-radius: 0 0 30px 30px; */
+        padding: 0 4px 2px 4px;
+    }
+    .bidBorder {
+        font-size: 3.6vw;
+    }
+    .lastBid { 
+        font-size: 9.468vw;
+    }
+    .lastBid .clubIconSmall {
+        width: 6.1vw;
+    }
+    .lastBid .diamondIconSmall {
+        width: 7vw;
+    }
+    .lastBid .heartIconSmall {
+        width: 6.8vw;
+    }
+    .lastBid .spadeIconSmall {
+        width: 6vw;
+    }
+
+    .thinkingDiv .clubIcon {
+        width: 3.8vw;
+    }
+    .thinkingDiv .diamondIcon {
+        width: 4.4vw;
+    }
+    .thinkingDiv .heartIcon {
+        width: 4.14vw;
+    }
+    .thinkingDiv .spadeIcon {
+        width: 3.56vw;
+    }
+
+}
+@media (max-width: 435px) {
+    #forgotPasswordForm, #pwdResetForm{
+      width: 100%;
+      margin: auto;
+    }
+    #rowContainer{
+        width: 98%;
+    }
+    .bidBorder{
+        width: 95%;
+    }
+    .dealSummaryInfo h5, .table *, #handsDiv h5, #dealSummaryBottom *, .dealSummaryHonors *, .handDiv *, #finalScoreSummary *{
+        font-size: var(--mobile-small-font-size-max);
+    }
+    #resultSentence {
+        font-size: calc(var(--mobile-small-font-size-max) * .75);
+    }
+    #finalScoreSummary h4 {
+        font-size: calc(var(--mobile-small-font-size-max) * 1.25);
+    }
+  }
+@media (max-width: 389px) {
+    #bidContainer button {
+        padding: 0px;
+    }
+    #leftBids, #rightBids,#topBids,#bottomBids {
+        max-width: 100px;
+    }
+    #rowContainer{
+        min-height: 65.5vw;
+        /* min-height: 249px; */
+        height: 62vw;
+    }
+    .bidBorder {
+        height: 16.3vw; 
+         /* 58px */
+         margin: 2px 0;
+    }
+    #lastBid {
+        margin-bottom: 0px !important;
+    }
+    #cardsDiv{
+        margin: 2px auto 2px auto;
+    }
+    .clubIcon {
+        width: 3.14vw;
+    }
+    .diamondIcon {
+        width: 2.9vw;
+    }
+    .heartIcon {
+        width: 3.4vw;
+    }
+    .spadeIcon{
+        width: 3.07vw;
+    }
+    .clubIconSmall {
+        width: 2.4vw;
+    }
+    .diamondIconSmall {
+        width: 2.25vw;
+    }
+    .heartIconSmall {
+        width: 2.6vw;
+    }
+    .spadeIconSmall {
+        width: 2.37vw;
+    }
+}
+
+@media (min-width: 992px) {
+    #claimingHandDiv, #otherHandDiv, #endInDiv *, #claimSomeClaimOrderDiv *{
+        font-size: 2rem;
+    }
+}
+@media (min-width: 768px) {
+    .detailsButton {
+        font-size: 1.5em;
+    }
+    #claimBodyTitle > div > div:first-child, #currentCardToSelect, #allClaimedCardsTitle, #claimBodyTitle.claimSomeDefenseSummary {
+        font-size: 2rem;
+    }
+    #claimBody.isDeclarer * {
+        font-size: 1.5rem;
+    }
+    #usersReady>div:last-child {
+        padding-bottom: 3rem;
+    }
+    #leftUserReadyStatus, #rightUserReadyStatus, #playerThreeStatus {
+        padding: .5rem 1rem;
+    }
+    #claimTitle{
+        font-size: 2.25em;
+    }
+}
+@media (min-width: 530px) {
+    #cardsDivGrid{
+        grid-template-rows: 100%;
+    }
+    #autoPassDiv, #autoPassDurationDiv {
+        justify-content: center;
+    }
+    #sidebarFull {
+        border-radius: 1em 0 0 0;
+        width: auto;
+    }
+}
+
+@media screen and (min-width: 940px)  {
+    body {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+}
+
+
+
+
