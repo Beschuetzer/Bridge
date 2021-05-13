@@ -1,5 +1,5 @@
 //NOTE: I created this website before I had learned about React
-//I also didn't know about modules, so I ended up writing all of the code in the same file...
+//I also didn't know about modules, so I ended up writing all of the code in the same file.  I used regions to try and maintain order.
 
 window.onload = function () {
   window.addEventListener('keyup', keyUpHandler);

@@ -1,8 +1,8 @@
 //NOTE: Tracking users to make sure they are only able to join one lobby/game
 
 const User = require('../models/user');
-const roomUtils = require('./rooms');
-const constants = require('./constants');
+const roomUtils = require('./appRooms');
+const constants = require('./appConstants');
 const users = [];
 //Join user to chat
 async function userJoin(socketId, username, room) {

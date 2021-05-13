@@ -3,8 +3,8 @@
 //app.js calls them by calling gameUtils.functionName(gameObj, ...params);
 
 //#region Initialization
-const userUtils = require('./users');
-const constants = require('./constants');
+const userUtils = require('./appUsers');
+const constants = require('./appConstants');
 const games = {};
 const gamesInSession = [];
 const sortOrders = {

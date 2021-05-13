@@ -1,5 +1,5 @@
 //NOTE: PaperJS requires ES5.  I ended up writing everything myself in ES5 as I didn't know about Babel at the time
-//I also didn't know about modules, so I ended up writing all of the code in the same file...
+//I also didn't know about modules, so I ended up writing all of the code in the same file.  I used regions to try and maintain order.
 
 //#region Intialize Globals
 function initializeVariables() {

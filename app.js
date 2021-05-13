@@ -1,4 +1,4 @@
-//Note: I wrote this before I knew about modules
+//Note: This project was created before I fully understood modules and proper project structure
 
 //#region Setting Up Packages
 const express = require("express"),
@@ -132,7 +132,7 @@ mongoose.connect(mongoDbURL, {
 
 //#endregion
 //#endregion
-//#region Socket IO Stuff
+//#region Socket IO
 io.on("connection", (socket) => {
   //#region Handling Disconnections/Refreshes
   socket.binary(false).on("disconnect", () => {

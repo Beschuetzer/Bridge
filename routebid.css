@@ -1,4 +1,4 @@
-/*NOTE: I created this website before I had learned about SASS */
+/*NOTE: I created this website before I had learned about SASS and BEM, so I use a lot of ID selectors and try to maintain some semblance structure by using dividers */
 
 :root {
     --default-font-size: 24px;

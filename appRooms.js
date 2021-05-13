@@ -1,6 +1,6 @@
 //NOTE: Creating and Maintaining Lobbies (the screen where users change the settings for the game)
 
-const constants = require('./constants');
+const constants = require('./appConstants');
 const helpers = require('./helpers');
 const rooms = {};
 
